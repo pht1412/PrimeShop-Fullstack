@@ -1,0 +1,184 @@
+/* Container tổng - Luôn nổi trên cùng */
+.contact-widget-container {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* --- NÚT CHÍNH (MAIN BUTTON) - PHIÊN BẢN XANH DƯƠNG --- */
+.contact-main-btn {
+    /* Gradient Xanh Dương Thương mại điện tử */
+    background: linear-gradient(135deg, lightblue 25%, #085ddb 75%);
+    color: #ffffff; /* Chữ trắng nổi bật trên nền xanh */
+    border: none;
+    border-radius: 50px; 
+    height: 54px;
+    padding: 0 24px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    /* Bóng màu xanh dương */
+    box-shadow: 0 6px 16px rgba(26, 115, 232, 0.3), 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    overflow: hidden;
+}
+
+/* Hiệu ứng khi Hover */
+.contact-main-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(2, 106, 241, 0.4), 0 5px 10px rgba(0,0,0,0.12);
+    /* Đổi sang tone xanh sáng hơn chút khi hover */
+    background: linear-gradient(135deg, #2b80ff 0%, #1557c0 100%);
+}
+
+/* Hiệu ứng khi Active (đang mở menu) */
+.contact-main-btn.active {
+    background: #626060; /* Giữ màu tối khi đóng để tạo tương phản */
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    padding-left: 20px;
+}
+
+.contact-main-btn.active svg {
+    font-size: 20px;
+    animation: rotateIn 0.3s ease;
+}
+@keyframes rotateIn { from { transform: rotate(-90deg); opacity: 0; } to { transform: rotate(0); opacity: 1; } }
+
+
+/* --- STYLE CHO LOGO ẢNH (Giữ nguyên) --- */
+.contact-main-img {
+    width: 40px; 
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex-shrink: 0; 
+}
+
+.contact-main-btn.active .contact-main-img {
+    display: none;
+}
+
+
+/* --- POPUP MENU (DANH SÁCH) --- */
+.contact-menu {
+    position: absolute;
+    bottom: 75px;
+    right: 0;
+    width: 340px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    overflow: hidden;
+    transform-origin: bottom right;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: none;
+    border: 1px solid rgba(0,0,0,0.08);
+}
+
+.contact-menu.open {
+    display: block;
+}
+
+@keyframes popIn {
+    from { opacity: 0; transform: scale(0.8) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Header của Menu - Xanh Dương */
+.contact-menu-header {
+    /* Gradient Xanh Dương */
+    background: linear-gradient(to right, #1A73E8, #0D47A1);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 15px;
+    color: #ffffff; /* Chữ trắng */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Body của Menu */
+.contact-list {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #F0F7FF; /* Nền xanh dương siêu nhạt */
+}
+
+/* Từng mục liên hệ */
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px;
+    border-radius: 12px;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid transparent;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.contact-item:hover {
+    background: #fff;
+    border-color: #1A73E8; /* Viền xanh dương khi hover */
+    box-shadow: 0 5px 15px rgba(26, 115, 232, 0.15); /* Bóng xanh */
+    transform: translateY(-2px);
+}
+
+/* Icon tròn trong từng mục */
+.contact-item-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 22px;
+    flex-shrink: 0;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+/* Màu sắc riêng cho từng icon (Chat C2C đổi sang xanh) */
+.icon-zalo { background: linear-gradient(135deg, #0068FF, #0045a8); }
+.icon-phone { background: linear-gradient(135deg, #00AA13, #008a0f); }
+.icon-warranty { background: linear-gradient(135deg, #444, #222); }
+/* Chat C2C: Đổi sang gradient xanh dương */
+.icon-chat { background: linear-gradient(135deg, #1A73E8, #0D47A1); color: #fff; } 
+.icon-ai { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); } /* AI giữ nguyên hoặc đổi tùy ý */
+
+/* Text thông tin */
+.contact-item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-label {
+    font-weight: 700;
+    font-size: 15px;
+    color: #222;
+}
+
+.contact-sub {
+    font-size: 13px;
+    color: #666;
+    margin-top: 3px;
+}

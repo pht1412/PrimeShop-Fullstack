@@ -1,0 +1,5 @@
+username,password,expectedStatus
+admin,admin,200
+admin,wrongpass,401
+nonexist,123,401
+"",123,401

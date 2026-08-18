@@ -1,0 +1,14 @@
+test_case_id,api_endpoint,method,test_description,input_data,expected_status,expected_response_field,expected_value
+PRODUCT_010,/api/product/slug,GET,Lấy sản phẩm không tồn tại,san-pham-khong-ton-tai-xyz,404,status,ERROR
+PRODUCT_011,/api/product/all-products,GET,Phân trang với page âm,page=-1&size=10,400,message,Tham số trang không hợp lệ
+PRODUCT_012,/api/product/all-products,GET,Phân trang với size bằng 0,page=0&size=0,400,message,Kích thước trang không hợp lệ
+PRODUCT_015,/api/product/rate,POST,Đánh giá với rating > 5,"{""productSlug"":""iphone-15-pro-max"",""rating"":6.0}",400,message,Xếp hạng phải từ 1 đến 5
+PRODUCT_016,/api/product/rate,POST,Đánh giá với rating = 0,"{""productSlug"":""iphone-15-pro-max"",""rating"":0}",400,message,Xếp hạng phải từ 1 đến 5
+PRODUCT_017,/api/product/rate,POST,Đánh giá không có token,"{""productSlug"":""iphone-15-pro-max"",""rating"":4}",401,message,Unauthorized
+PRODUCT_020,/api/product/category,GET,Category không tồn tại,category-khong-ton-tai,404,status,ERROR
+PRODUCT_023,/api/product/rate,POST,Đánh giá sản phẩm không tồn tại,"{""productSlug"":""san-pham-fake-xyz"",""rating"":5}",404,message,Sản phẩm không tồn tại
+PRODUCT_024,/api/product/rate,POST,Đánh giá với rating là chữ,"{""productSlug"":""iphone-15-pro-max"",""rating"":""abc""}",400,message,Xếp hạng phải là số
+PRODUCT_032,/api/product/rate,POST,Đánh giá với rating âm,"{""productSlug"":""iphone-15-pro-max"",""rating"":-1}",400,message,Xếp hạng phải từ 1 đến 5
+PRODUCT_037,/api/product/rate,POST,Đánh giá với JSON rỗng,none,400,message,Yêu cầu không hợp lệ
+PRODUCT_038,/api/product/rate,POST,Đánh giá thiếu productSlug,"{""rating"":5}",400,message,Thiếu thông tin sản phẩm
+PRODUCT_039,/api/product/rate,POST,Đánh giá thiếu rating,"{""productSlug"":""iphone-15-pro-max""}",400,message,Thiếu thông tin xếp hạng

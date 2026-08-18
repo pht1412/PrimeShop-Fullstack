@@ -1,0 +1,211 @@
+/* ===== WISHLIST PAGE ===== */
+.wishlist-page {
+  padding: 60px 20px;
+  background-color: #f9f9f9;
+  font-family: 'Roboto', sans-serif; /* Chọn font dễ đọc, hiện đại */
+}
+
+/* Container để căn giữa nội dung */
+.wishlist-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Tiêu đề */
+.wishlist-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 30px;
+  position: relative;
+  display: inline-block;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+  text-align: center;
+}
+
+.wishlist-title::after {
+  content: '';
+  position: absolute;
+  width: 50%;
+  height: 3px;
+  background-color: var(--accent-color);
+  bottom: -8px;
+  left: 0;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.wishlist-title:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Danh sách sản phẩm yêu thích */
+.wishlist-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  justify-items: center;
+  margin-top: 30px;
+}
+
+.wishlist-item {
+  background-color: var(--background-light);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Tạo bóng đổ nhẹ cho sản phẩm */
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  border: 1px solid #E5E5E5; /* Khung bao quanh sản phẩm */
+}
+
+.wishlist-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Hiệu ứng hover mạnh hơn */
+}
+
+/* Hình ảnh sản phẩm */
+.wishlist-item-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Thông tin sản phẩm */
+.wishlist-item-details {
+  flex: 1;
+}
+
+.wishlist-item-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 12px;
+  text-transform: capitalize;
+  line-height: 1.4;
+}
+
+.wishlist-item-price {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--primary-color);
+  margin-bottom: 12px;
+  text-transform: capitalize;
+}
+
+.wishlist-item-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.add-to-cart-btn,
+.remove-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+.add-to-cart-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: 1px solid transparent;
+}
+
+.remove-btn {
+  background-color: var(--danger-color);
+  color: white;
+  border: 1px solid transparent;
+}
+
+.add-to-cart-btn:hover,
+.remove-btn:hover {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+/* Trường hợp danh sách trống */
+.empty-wishlist {
+  text-align: center;
+  padding: 50px 0;
+}
+
+.empty-message {
+  font-size: 18px;
+  color: var(--text-light);
+  margin-bottom: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .wishlist-title {
+      font-size: 28px;
+  }
+
+  .wishlist-items {
+      grid-template-columns: 1fr;
+  }
+
+  .wishlist-item {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 15px;
+      gap: 15px;
+  }
+
+  .wishlist-item-image {
+      width: 100px;
+      height: 100px;
+  }
+
+  .wishlist-item-name {
+      font-size: 18px;
+  }
+
+  .wishlist-item-price {
+      font-size: 16px;
+  }
+
+  .wishlist-item-actions {
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+  }
+
+  .add-to-cart-btn,
+  .remove-btn {
+      padding: 6px 12px;
+      font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wishlist-title {
+      font-size: 24px;
+  }
+
+  .wishlist-item-image {
+      width: 80px;
+      height: 80px;
+  }
+
+  .empty-message {
+      font-size: 16px;
+  }
+
+  .wishlist-item-name {
+      font-size: 16px;
+  }
+}

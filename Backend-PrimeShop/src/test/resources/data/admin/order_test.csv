@@ -1,0 +1,10 @@
+method,id,body,expectedStatus
+POST,0,"{""userId"":1,""total"":2000}",201
+POST,0,"{}",400
+GET,0,"",200
+GET,1,"",200
+GET,999,"",404
+PUT,1,"{""status"":""SHIPPED""}",200
+PUT,999,"{""status"":""SHIPPED""}",404
+DELETE,1,"",204
+DELETE,999,"",404

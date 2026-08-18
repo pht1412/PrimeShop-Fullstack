@@ -1,0 +1,386 @@
+/* Import Font cho Header cách điệu */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;600;700&display=swap');
+
+/* --- 1. LAYOUT CHÍNH --- */
+.productsPage {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #F8F9FA;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  color: #1F2937;
+}
+
+.pageContainer {
+  display: flex;
+  gap: 2rem;
+  position: relative;
+  align-items: flex-start;
+}
+
+/* --- 2. SIDEBAR (BỘ LỌC BÊN TRÁI) --- */
+.sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+  border: 1px solid #E5E7EB;
+  position: sticky;
+  top: 20px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
+
+.filterGroup {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #F3F4F6;
+  padding-bottom: 1.5rem;
+}
+
+.filterGroup:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.filterTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #111827;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Filter List */
+.filterList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.filterItem {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+  color: #4B5563;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.filterItem:hover {
+  background-color: #F3F4F6;
+  color: #2563EB;
+}
+
+.filterItem.active {
+  background-color: #EFF6FF;
+  color: #2563EB;
+  font-weight: 600;
+}
+
+.checkIcon { font-size: 0.8rem; color: #2563EB; }
+
+/* Price Inputs */
+.priceInputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.priceInput {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #D1D5DB;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  outline: none;
+  text-align: center;
+}
+
+.priceInput:focus { border-color: #2563EB; }
+
+.applyBtn {
+  width: 100%;
+  padding: 10px;
+  background: #2563EB;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.applyBtn:hover { background: #1D4ED8; }
+
+/* --- 3. MAIN CONTENT --- */
+.mainContent {
+  flex: 1;
+  width: 100%;
+  min-width: 0; /* Fix flex item overflow issue */
+}
+
+/* Search Bar */
+.searchSection {
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 16px 20px 16px 50px;
+  border-radius: 50px;
+  border: none;
+  background: #FFFFFF;
+  box-shadow: 5px 5px 10px #e6e6e6, -5px -5px 10px #ffffff; 
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.searchInput:focus {
+  box-shadow: inset 5px 5px 10px #e6e6e6, inset -5px -5px 10px #ffffff; 
+}
+
+.searchIcon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9CA3AF;
+  font-size: 1.2rem;
+}
+
+/* --- 4. DYNAMIC CATEGORY BANNER --- */
+.brandSpotlight {
+  margin-bottom: 3rem;
+  background: white; /* Fallback color */
+  padding: 3rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
+  border: 1px solid #EFF6FF;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.5s ease;
+}
+
+/* Style đặc biệt khi có ảnh nền */
+.brandSpotlight.hasImage {
+  background-size: cover;
+  background-position: center;
+  border: none;
+  color: white; /* Chuyển chữ sang trắng */
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* Bóng chữ để dễ đọc */
+}
+
+/* Lớp phủ đen mờ để làm nổi bật chữ trên ảnh nền */
+.brandSpotlight.hasImage::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Đen mờ 60% */
+  z-index: 1;
+}
+
+/* Nội dung bên trong banner phải nổi lên trên lớp phủ */
+.spotlightContent {
+  position: relative;
+  z-index: 2;
+}
+
+.spotlightHeader {
+  margin-bottom: 2rem;
+}
+
+.spotlightSubtitle {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: #6B7280;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 0.5rem;
+}
+
+/* Khi có ảnh nền, subtitle chuyển màu trắng/vàng */
+.brandSpotlight.hasImage .spotlightSubtitle {
+  color: #FCD34D; /* Vàng kim */
+}
+
+.spotlightTitle {
+  font-family: 'Dancing Script', cursive;
+  font-size: 3.5rem;
+  color: #1E3A8A;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.brandSpotlight.hasImage .spotlightTitle {
+  color: #FFFFFF;
+}
+
+.spotlightHighlight {
+  color: #052996; 
+}
+.brandSpotlight.hasImage .spotlightHighlight {
+  color: #3201f3; /* Xanh lá sáng hơn trên nền tối */
+}
+
+/* Marquee Animation */
+.marqueeContainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-top: 2rem;
+  z-index: 2;
+}
+
+.marqueeTrack {
+  display: inline-flex;
+  align-items: center;
+  animation: scrollLeft 25s linear infinite;
+}
+
+/* --- CẬP NHẬT: LOGO ĐỒNG BỘ KÍCH THƯỚC VÀ CÓ MÀU --- */
+.brandItem {
+  margin: 0 1.5rem; /* Khoảng cách giữa các logo */
+  flex-shrink: 0;
+  
+  /* 1. Tạo khung cố định */
+  width: 120px;       /* Chiều rộng bằng nhau */
+  height: 70px;       /* Chiều cao bằng nhau */
+  
+  /* 2. Căn giữa logo trong khung */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Tùy chọn: Thêm nền trắng mờ nếu banner tối để logo dễ nhìn hơn */
+  /* background: rgba(255, 255, 255, 0.1); border-radius: 8px; */
+}
+
+.brandItem img {
+  /* 3. Bắt ảnh nằm gọn trong khung, giữ tỷ lệ */
+  width: 100%;
+  height: 100%;
+  object-fit: contain; 
+  
+  /* BỎ grayscale (xám) để hiển thị màu gốc */
+  filter: none; 
+  opacity: 1; 
+  
+  /* Chỉ giữ transition cho hiệu ứng phóng to */
+  transition: transform 0.3s ease;
+  padding: 5px; /* Khoảng đệm nhỏ */
+}
+
+/* Hover: Chỉ phóng to nhẹ */
+.brandItem:hover img {
+  transform: scale(1.15);
+  cursor: pointer;
+}
+
+@keyframes scrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* --- 5. PRODUCTS GRID (FIXED LAYOUT) --- */
+.productsGrid {
+  display: grid;
+  /* 🔴 FIX: Ép cứng 4 cột thay vì auto-fill để tránh lỗi 5 cột */
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.loading, .empty {
+  text-align: center;
+  padding: 4rem;
+  font-size: 1.2rem;
+  color: #6B7280;
+  width: 100%;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.pageBtn {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 15px;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  background: white;
+  cursor: pointer;
+  font-weight: 600;
+  color: #4B5563;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pageBtn:hover:not(:disabled) {
+  border-color: #2563EB;
+  color: #2563EB;
+}
+
+.pageBtn.active {
+  background: #2563EB;
+  color: white;
+  border-color: #2563EB;
+}
+
+.pageBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #F3F4F6;
+}
+
+.dots {
+  display: flex;
+  align-items: flex-end;
+  padding: 0 5px;
+  color: #9CA3AF;
+}
+
+/* --- RESPONSIVE --- */
+/* Laptop nhỏ */
+@media (max-width: 1200px) {
+  .productsGrid { grid-template-columns: repeat(3, 1fr); } /* 3 cột */
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+  .pageContainer { flex-direction: column; }
+  .sidebar { width: 100%; position: static; max-height: none; margin-bottom: 2rem; }
+  .productsGrid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .productsGrid { grid-template-columns: repeat(2, 1fr); } /* 2 cột */
+  .spotlightTitle { font-size: 2rem; }
+}

@@ -1,0 +1,13 @@
+id,module,api,method,case_name,input,expected_status,actual_status,result,note
+TC01,Cart,/api/cart/add,POST,Add product valid,"{""productSlug"":""iphone"",""quantity"":1}",200,200,PASS,Add cart thành công
+TC02,Cart,/api/cart/remove,POST,Remove product valid,"{""productSlug"":""iphone""}",200,200,PASS,Xóa sản phẩm khỏi cart thành công
+TC03,Cart,/api/cart/add,POST,Quantity = -1,"{""productSlug"":""iphone"",""quantity"":-1}",400,200,FAIL,Backend không validate quantity âm
+TC04,Cart,/api/cart/add,POST,Quantity = 0,"{""productSlug"":""iphone"",""quantity"":0}",400,200,FAIL,Backend không validate quantity = 0
+TC05,Cart,/api/cart/add,POST,productSlug sai,"{""productSlug"":""abcxyz"",""quantity"":1}",404,500,FAIL,Server trả 500 thay vì 404
+TC06,Cart,/api/cart/add,POST,productSlug rỗng,"{""productSlug"":"""",""quantity"":1}",400,500,FAIL,Server trả 500 thay vì 400
+TC07,Cart,/api/cart,GET,Get cart after login,"token user",200,200,PASS,Lấy cart thành công
+TC08,Checkout,/api/order/create,POST,Checkout data hợp lệ,"{""fullName"":""Nguyen Van A"",""phoneNumber"":""0900000000"",""address"":""HCM"",""orderItems"":[{""productSlug"":""iphone"",""quantity"":1}]}",200,200,PASS,Tạo order thành công
+TC09,Checkout,/api/order/create,POST,fullName null,"{""fullName"":null,""phoneNumber"":""0900000000"",""address"":""HCM"",""orderItems"":[{""productSlug"":""iphone"",""quantity"":1}]}",400,200,FAIL,API không validate fullName
+TC10,Checkout,/api/order/create,POST,phoneNumber sai,"{""fullName"":""Nguyen Van A"",""phoneNumber"":""abc"",""address"":""HCM"",""orderItems"":[{""productSlug"":""iphone"",""quantity"":1}]}",400,200,FAIL,API không validate phoneNumber
+TC11,Checkout,/api/order/create,POST,address null,"{""fullName"":""Nguyen Van A"",""phoneNumber"":""0900000000"",""address"":null,""orderItems"":[{""productSlug"":""iphone"",""quantity"":1}]}",400,200,FAIL,API không validate address
+TC12,Checkout,/api/order/create,POST,orderItems rỗng,"{""fullName"":""Nguyen Van A"",""phoneNumber"":""0900000000"",""address"":""HCM"",""orderItems"":[]}",400,200,FAIL,Backend bỏ qua orderItems từ request

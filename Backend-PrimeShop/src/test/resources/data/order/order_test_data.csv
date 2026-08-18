@@ -1,0 +1,14 @@
+TestCaseID,API,Method,Input,ExpectedStatus,Description
+TC01,/api/order/get,GET,,200,Get orders by user
+TC02,/api/order/create,POST,"{}",400,Create order invalid body (cart has items)
+TC03,/api/order/create,POST,"{""fullName"":""Nguyen Van A"",""phoneNumber"":""0123456789"",""address"":""Hanoi""}",400,Create order with empty cart
+TC04,/api/order/create,POST,"{""fullName"":""Nguyen Van A"",""phoneNumber"":""0123456789"",""address"":""Hanoi""}",200,Create order success (cart has items)
+TC05,/api/order/all-orders,GET,,200,Admin gets all orders
+TC06,/api/order/all-orders?status=PENDING,GET,,200,Filter orders by status
+TC07,/api/order/count,GET,,200,Count orders
+TC08,/api/order/update-status,PUT,"id=1&status=SHIPPED",200,Update order status valid
+TC09,/api/order/update-status,PUT,"id=999999&status=SHIPPED",400,Update order order not found
+TC10,/api/order/update-status,PUT,"id=1&status=INVALID_STATUS",400,Update order invalid status
+TC11,/api/order/20080/installment/payment,POST,"{""installmentMonths"":6}",200,Create installment payment
+TC12,/api/order/20078/installment,GET,,200,Get installment info
+TC13,/api/order/999999/installment,GET,,404,Get installment info not found

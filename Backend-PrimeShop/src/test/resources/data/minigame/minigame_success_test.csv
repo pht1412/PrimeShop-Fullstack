@@ -1,0 +1,13 @@
+testCase,gameId,userId,answers,expectedStatus,expectedSuccess,description
+TC01,who_wants_to_be_millionaire,1,"[0,1,0,0,1]",200,true,Tra loi dung het 5 cau - ky vong THANG
+TC02,who_wants_to_be_millionaire,1,"[1,0,1,1,0]",200,false,Tra loi sai het - ky vong THUA
+TC03,quiz,1,"[0,1,0]",200,true,Tra loi dung het 3 cau Quiz - ky vong THANG
+TC04,quiz,1,"[1,0,1]",200,false,Tra loi sai - ky vong THUA
+TC05,tai_xiu,1,"[0]",200,,Chon Tai - ket qua ngau nhien (PASS)
+TC06,tai_xiu,1,"[1]",200,,Chon Xiu - ket qua ngau nhien (PASS)
+TC07,lucky_wheel,1,"[]",200,,Quay vong quay - ket qua ngau nhien (PASS)
+TC08,memory_card,1,"[]",200,,Lat hinh tim cap - ket qua ngau nhien (PASS)
+TC09,fake_game_xyz,1,"[]",400,false,GameId khong ton tai - PASS
+TC10,LUCKY_WHEEL,1,"[]",400,false,GameId viet hoa - PASS
+TC11,who_wants_to_be_millionaire,1,"[]",400,false,Gui danh sach rong - ky vong loi 400
+TC12,quiz,1,"null",400,false,Gui null - ky vong loi 400

@@ -1,0 +1,265 @@
+/* --- 1. GENERAL LAYOUT --- */
+.qa-page-wrapper {
+  font-family: 'Inter', sans-serif;
+  background-color: #F8F9FA;
+  min-height: 100vh;
+  padding-bottom: 4rem;
+}
+
+/* --- 2. HERO SEARCH SECTION --- */
+.qa-hero-section {
+  background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%);
+  padding: 4rem 1.5rem 6rem; /* Padding dưới lớn để search box nằm đè lên */
+  text-align: center;
+  color: white;
+  border-radius: 0 0 24px 24px;
+  margin-bottom: 3rem;
+}
+
+.qa-hero-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.qa-hero-subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: 2.5rem;
+}
+
+/* Search Box Floating */
+.qa-search-container {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.qa-search-box {
+  width: 100%;
+  padding: 18px 25px 18px 55px;
+  border-radius: 50px;
+  border: none;
+  font-size: 1.1rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.qa-search-box:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(37, 99, 235, 0.3);
+}
+
+.qa-search-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9CA3AF;
+  font-size: 1.3rem;
+}
+
+/* --- 3. CATEGORY TABS --- */
+.qa-categories {
+  max-width: 1000px;
+  margin: -4rem auto 3rem; /* Đẩy lên đè vào Hero */
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.category-tab {
+  background: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #4B5563;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.category-tab:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.category-tab.active {
+  background: #2563EB;
+  color: white;
+  border-color: #2563EB;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+}
+
+.category-icon {
+  font-size: 1.1rem;
+}
+
+/* --- 4. ACCORDION LIST (MODERN STYLE) --- */
+.qa-content-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.qa-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.qa-item {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #F3F4F6;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  overflow: hidden; /* Để che phần answer khi collapse */
+  transition: all 0.3s ease;
+}
+
+.qa-item:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  border-color: #BFDBFE;
+}
+
+.qa-item.active {
+  border-color: #2563EB; /* Viền xanh khi mở */
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.1);
+}
+
+/* Header câu hỏi */
+.qa-question {
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1F2937;
+  margin: 0;
+  transition: color 0.3s;
+}
+
+.qa-item.active .qa-question {
+  color: #2563EB;
+}
+
+.toggle-icon {
+  width: 24px;
+  height: 24px;
+  background: #F3F4F6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: #6B7280;
+  transition: all 0.3s ease;
+}
+
+.qa-item.active .toggle-icon {
+  background: #2563EB;
+  color: white;
+  transform: rotate(180deg);
+}
+
+/* Nội dung câu trả lời */
+.qa-answer {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  background-color: #F8FAFC; /* Nền xám xanh cực nhạt */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0 1.5rem;
+}
+
+.qa-item.active .qa-answer {
+  max-height: 500px; /* Đủ lớn để chứa nội dung */
+  opacity: 1;
+  padding: 0 1.5rem 1.5rem 1.5rem; /* Padding khi mở */
+  border-top: 1px solid #F1F5F9;
+}
+
+.qa-answer p {
+  color: #4B5563;
+  line-height: 1.7;
+  margin-top: 1rem;
+}
+
+/* Empty State */
+.no-result {
+  text-align: center;
+  padding: 3rem;
+  color: #6B7280;
+  font-size: 1.1rem;
+}
+
+/* --- 5. CTA SECTION (VẪN CẦN HỖ TRỢ?) --- */
+.qa-cta-section {
+  max-width: 900px;
+  margin: 4rem auto 0;
+  background: white;
+  padding: 3rem;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  border: 1px solid #E5E7EB;
+}
+
+.qa-cta-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1F2937;
+  margin-bottom: 0.5rem;
+}
+
+.qa-cta-desc {
+  color: #6B7280;
+  margin-bottom: 2rem;
+}
+
+.qa-cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.cta-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.cta-hotline {
+  background: #EFF6FF;
+  color: #2563EB;
+}
+.cta-hotline:hover { background: #DBEAFE; }
+
+.cta-chat {
+  background: #2563EB;
+  color: white;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+}
+.cta-chat:hover { background: #1D4ED8; transform: translateY(-2px); }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .qa-hero-title { font-size: 1.8rem; }
+  .qa-categories { gap: 0.8rem; }
+  .category-tab { flex: 1 1 40%; font-size: 0.9rem; justify-content: center; }
+  .qa-cta-buttons { flex-direction: column; }
+}

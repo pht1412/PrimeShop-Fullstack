@@ -1,0 +1,5 @@
+username,password,email,expectedHttpCode,expectedMessage
+testuser,short,invalid_email,400,Invalid email format
+,password123,new@example.com,400,Username is required
+duplicate_user,pass123,dup@example.com,400,Username already exists
+user@123,pass123,notanemail,400,Invalid email format

@@ -1,0 +1,7 @@
+testCase,sellerId,productId,expectedStatus
+getAllSellers,,,200
+getPendingSellers,,,200
+approveSeller,1,,200
+approveSeller,999,,500
+banSeller,1,,200
+banSeller,999,,500

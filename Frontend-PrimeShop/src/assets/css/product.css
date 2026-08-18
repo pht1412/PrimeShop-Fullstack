@@ -1,0 +1,217 @@
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  /* Layout chính */
+  .product-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* SECTION 1: Tổng quan sản phẩm */
+  .product-overview {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+  
+  .product-images {
+    flex: 1;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+  }
+  
+  .product-images img {
+    max-width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+  }
+  
+  .product-info {
+    flex: 1;
+    padding: 0 20px;
+  }
+  
+  .product-info h1 {
+    font-size: 28px;
+    margin-top: 0;
+    color: #2c3e50;
+  }
+  
+  .price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #e74c3c;
+    margin: 15px 0;
+  }
+  
+  .label {
+    font-weight: 600;
+    margin: 15px 0 8px;
+    color: #555;
+  }
+  
+  .color-options {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .color-options button {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .color-options button.active {
+    border-color: #3498db;
+    background: #3498db;
+    color: white;
+  }
+  
+  .quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+  }
+  
+  .quantity button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .quantity span {
+    min-width: 30px;
+    text-align: center;
+  }
+  
+  .actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+  }
+  
+  .actions button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .buy-now {
+    background: #e74c3c;
+    color: white;
+  }
+  
+  .buy-now:hover {
+    background: #c0392b;
+  }
+  
+  .add-to-cart {
+    background: #3498db;
+    color: white;
+  }
+  
+  .add-to-cart:hover {
+    background: #2980b9;
+  }
+  
+  .promotions {
+    flex: 1;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e1e1e1;
+  }
+  
+  .promotions h3 {
+    margin-top: 0;
+    color: #2c3e50;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+  }
+  
+  .promotions ul {
+    padding-left: 20px;
+  }
+  
+  .promotions li {
+    margin-bottom: 10px;
+  }
+  
+  /* SECTION 2: Chi tiết sản phẩm */
+  .product-details {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+  
+  .description, .specifications {
+    flex: 1;
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid #e1e1e1;
+  }
+  
+  .description h2, .specifications h2 {
+    margin-top: 0;
+    color: #2c3e50;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+  }
+  
+  .specifications ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .specifications li {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #eee;
+  }
+  
+  .specifications li:last-child {
+    border-bottom: none;
+  }
+  
+  .specifications strong {
+    color: #555;
+    display: inline-block;
+    min-width: 120px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .product-overview, .product-details {
+      flex-direction: column;
+    }
+    
+    .product-info {
+      padding: 20px 0;
+    }
+  }

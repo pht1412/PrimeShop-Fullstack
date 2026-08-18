@@ -1,0 +1,13 @@
+method,url,body,expectedStatus
+POST,/api/admin/categories,"{""name"":""RAM""}",201
+POST,/api/admin/categories,"{""name"":""CPU""}",201
+POST,/api/admin/categories,"{""name"":""""}",400
+POST,/api/admin/categories,"{}",400
+POST,/api/admin/categories,"null",400
+GET,/api/admin/categories,"",200
+GET,/api/admin/categories/1,"",200
+GET,/api/admin/categories/999,"",404
+PUT,/api/admin/categories/1,"{""name"":""RAM Updated""}",200
+PUT,/api/admin/categories/999,"{""name"":""RAM""}",404
+DELETE,/api/admin/categories/1,"",204
+DELETE,/api/admin/categories/999,"",404

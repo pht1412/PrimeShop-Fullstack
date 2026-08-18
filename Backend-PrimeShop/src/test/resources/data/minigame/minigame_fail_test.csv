@@ -1,0 +1,11 @@
+testCase,gameId,userId,answers,expectedStatus,expectedField,expectedValue,description
+TC-F01,who_wants_to_be_millionaire,1,"[0,1,0,0,1]",200,voucher.code,PRESENT,BUG: Khi thang phai co voucher.code nhung API chua tra ve
+TC-F02,who_wants_to_be_millionaire,1,"[0,1,0,0,1]",200,voucher.discountPercent,10,BUG: Voucher phai co discountPercent = 10 nhung API chua implement
+TC-F03,lucky_wheel,1,"[]",200,prize.name,PRESENT,BUG: Lucky Wheel phai tra ve ten giai thuong nhung API chua co truong prize
+TC-F04,lucky_wheel,1,"[]",200,prize.value,PRESENT,BUG: Lucky Wheel phai tra ve gia tri giai thuong nhung API chua co
+TC-F05,who_wants_to_be_millionaire,1,"[0,1,0,0,1]",401,,PRESENT,BUG bao mat: API khong yeu cau token - tat ca user deu goi duoc
+TC-F06,who_wants_to_be_millionaire,-1,"[0,1,0,0,1]",400,message,userId khong hop le,BUG: userId am phai bi tu choi nhung API chap nhan
+TC-F07,tai_xiu,1,"[0]",200,isValid,true,BUG: API chua tra ve truong isValid xac nhan ket qua hop le
+TC-F08,tai_xiu,1,"[0]",200,dice.length,3,BUG: API chua xac nhan so luong xuc xac chinh xac la 3
+TC-F09,who_wants_to_be_millionaire,1,"[0,1,0,0,1]",200,questions[0].difficulty,PRESENT,BUG: Cau hoi thieu truong difficulty
+TC-F10,quiz,1,"[0,1,0]",200,score,PRESENT,BUG: Ket qua quiz phai co diem so nhung API chua tra ve

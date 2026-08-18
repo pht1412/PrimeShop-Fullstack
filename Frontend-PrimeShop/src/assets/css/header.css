@@ -1,0 +1,235 @@
+/* --- HEADER CHÍNH (MẶC ĐỊNH LÀ MÀU XANH) --- */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  /* 🟢 FIX MÀU: Dùng Gradient xanh để nối liền với Hero Section */
+  background: linear-gradient(90deg, #1E3A8A 0%, #2563EB 100%);
+  color: #FFFFFF; /* Chữ mặc định màu trắng */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 10px rgba(0,0,0,0.05);
+}
+
+/* --- TRẠNG THÁI KHI CUỘN (CHUYỂN SANG TRẮNG) --- */
+.header.scrolled {
+  background: rgba(255, 255, 255, 0.95); /* Trắng đục */
+  backdrop-filter: blur(12px); /* Hiệu ứng kính mờ */
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  color: #1F2937; /* Chữ chuyển về màu đen */
+}
+
+/* --- TOP BAR --- */
+.top-bar {
+  /* Xóa nền riêng, dùng chung nền gradient của header để liền mạch */
+  background: transparent; 
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Đường kẻ mờ tinh tế */
+  padding: 8px 24px;
+  font-size: 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s;
+}
+
+/* Khi cuộn thì ẩn Topbar hoặc đổi màu text */
+.header.scrolled .top-bar {
+  background: #1E3A8A; /* Giữ màu xanh đậm cho topbar khi cuộn */
+  border-bottom: none;
+  color: white;
+}
+
+.top-bar .icon { margin-right: 6px; }
+.top-bar .btn {
+  background: transparent;
+  color: inherit; /* Ăn theo màu cha */
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 0 10px;
+  transition: color 0.2s;
+}
+.top-bar .btn:hover { color: #FFD700; /* Vàng kim loại */ }
+
+/* --- MAIN HEADER --- */
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 40px;
+  gap: 2rem;
+}
+
+/* LOGO */
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #FFFFFF; /* Mặc định trắng */
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  transition: color 0.3s;
+}
+.logo-image { height: 45px; width: auto; margin-right: 10px; }
+
+/* Khi cuộn: Logo đổi màu xanh */
+.header.scrolled .logo-link { color: #1E3A8A; }
+
+/* SEARCH BOX */
+.search-box {
+  flex: 1;
+  max-width: 600px;
+  position: relative;
+}
+.search-wrapper input {
+  width: 100%;
+  padding: 12px 20px 12px 50px;
+  border-radius: 50px;
+  border: none;
+  /* Input luôn màu trắng để nổi bật trên nền xanh */
+  background: #FFFFFF; 
+  color: #1F2937;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: all 0.3s;
+}
+.header.scrolled .search-wrapper input {
+  background: #F3F4F6; /* Khi nền trắng thì input xám nhạt */
+  border: 1px solid #E5E7EB;
+  box-shadow: none;
+}
+.search-wrapper input:focus {
+  background: #FFFFFF !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3) !important;
+  outline: none;
+}
+.search-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6B7280; /* Màu icon search luôn xám */
+  font-size: 1.1rem;
+  z-index: 2;
+}
+
+/* USER ACTIONS (Login, Cart...) */
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.9); /* Trắng mờ */
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.action-btn .icon {
+  font-size: 1.5rem;
+  margin-bottom: 4px;
+  transition: transform 0.2s;
+}
+
+.action-btn:hover { color: #FFD700; transform: translateY(-2px); }
+
+/* Khi cuộn: Icon đổi màu tối */
+.header.scrolled .action-btn { color: #4B5563; }
+.header.scrolled .action-btn:hover { color: #2563EB; }
+
+/* Cart Badge */
+.cart-badge {
+  position: absolute;
+  top: -6px; right: -6px;
+  background: #FFD700; /* Vàng nổi bật trên nền xanh */
+  color: #1E3A8A;
+  font-size: 0.75rem;
+  font-weight: 800;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.header.scrolled .cart-badge {
+  background: #DC2626; /* Đỏ trên nền trắng */
+  color: white;
+}
+
+/* --- NAVIGATION MENU --- */
+.navigation-container {
+  /* Xóa nền trắng, dùng border top mờ */
+  border-top: 1px solid rgba(255, 255, 255, 0.15); 
+  background: transparent;
+  transition: background 0.3s;
+}
+
+.header.scrolled .navigation-container {
+  background: #FFFFFF;
+  border-top: 1px solid #F3F4F6;
+}
+
+.nav-box {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 12px 0;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #FFFFFF; /* Mặc định trắng */
+  font-weight: 600;
+  font-size: 1rem;
+  position: relative;
+  padding: 5px 0;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  transition: color 0.3s;
+}
+
+.header.scrolled .nav-item { color: #374151; }
+
+/* Hiệu ứng gạch chân */
+.nav-item::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #FFD700; /* Vàng */
+  transition: width 0.3s ease;
+}
+.header.scrolled .nav-item::after { background-color: #2563EB; }
+
+.nav-item:hover { color: #FFD700; }
+.header.scrolled .nav-item:hover { color: #2563EB; }
+.nav-item:hover::after { width: 100%; }
+
+/* --- MOBILE --- */
+.hamburger { display: none; font-size: 1.5rem; color: white; background: none; border: none; }
+.header.scrolled .hamburger { color: #1F2937; }
+
+@media (max-width: 992px) {
+  .navigation-container, .top-bar { display: none; } /* Ẩn bớt trên mobile */
+  .main-header { padding: 10px 15px; }
+  .hamburger { display: block; }
+  .user-actions span { display: none; }
+  .logo-link { font-size: 1.4rem; }
+  
+  /* Mobile Menu vẫn giữ nền trắng */
+  .mobile-menu { background: white; color: #333; }
+  .mobile-menu-item { color: #333; border-bottom: 1px solid #eee; }
+}

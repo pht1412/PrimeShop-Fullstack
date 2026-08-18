@@ -1,0 +1,5 @@
+username,password,email,fullName,phoneNumber
+testuser,password123,test@example.com,Test User,0123456789
+john_doe,secure_pass,john@example.com,John Doe,0987654321
+admin_user,admin123,admin@primeshop.com,Admin User,0999999999
+seller_account,seller_pass,seller@primeshop.com,Seller Account,0111222333

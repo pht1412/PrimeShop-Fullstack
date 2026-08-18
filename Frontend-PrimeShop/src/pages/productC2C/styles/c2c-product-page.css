@@ -1,0 +1,56 @@
+/* Vị trí: src/assets/css/c2c-product-page.css */
+
+.c2c-page-container {
+  width: 90%;
+  max-width: 1300px; /* Layout rộng rãi */
+  margin: 2rem auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.c2c-page-header {
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.c2c-page-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.c2c-page-header p {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 8px;
+}
+
+/* === Layout Grid "Pixel-perfect" & Responsive === */
+.c2c-product-grid {
+  display: grid;
+  gap: 20px;
+  
+  /* Đây là "tuyệt kỹ" của Senior FE:
+    - Tự động fill, không cần media query "cứng".
+    - 'minmax(250px, 1fr)': 
+      - Cột nhỏ nhất là 250px (cho mobile).
+      - '1fr': Tự động co giãn các cột còn lại cho "perfect"
+  */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+/* Trạng thái Loading / Rỗng */
+.c2c-loading-state,
+.c2c-empty-list-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  font-size: 1.2rem;
+  color: #888;
+  font-weight: 500;
+}

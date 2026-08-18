@@ -1,0 +1,129 @@
+/* Vị trí: src/assets/css/c2c-tab.css */
+
+.c2c-tab-container {
+  padding: 10px;
+}
+
+/* 1. Header */
+.c2c-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 16px;
+}
+
+.c2c-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.post-new-btn {
+  /* Nút màu xanh primary nổi bật */
+  font-weight: 600 !important;
+}
+
+/* 2. Danh sách sản phẩm */
+.c2c-product-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 2.1. Trường hợp rỗng (Empty State) */
+.c2c-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  text-align: center;
+  min-height: 200px;
+}
+.c2c-empty-state p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+/* 2.2. Item sản phẩm */
+.c2c-product-item {
+  display: flex;
+  align-items: flex-start; /* Sửa align-items thành flex-start */
+  gap: 16px;
+  padding: 16px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+}
+
+.c2c-product-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.c2c-product-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+.c2c-product-info {
+  flex-grow: 1; /* Cho phép phần info co giãn */
+  display: flex;
+  flex-direction: column;
+  align-self: stretch; /* Kéo dãn info theo chiều cao của item */
+}
+
+.c2c-product-info .product-name {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #222;
+  margin: 0 0 8px 0;
+}
+
+.c2c-product-info .product-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #d70018; /* Màu đỏ giá đặc trưng */
+  margin: 0 0 8px 0;
+}
+
+.c2c-product-info .product-meta {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0 0 12px 0;
+}
+.c2c-product-info .product-meta span {
+  margin-right: 12px;
+}
+
+/* Badge trạng thái */
+.product-status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 12px;
+  color: #fff;
+  margin-top: auto; /* Đẩy badge xuống dưới cùng */
+}
+
+.status-active { background-color: #28a745; } /* Xanh lá */
+.status-sold { background-color: #dc3545; } /* Đỏ */
+.status-pending { background-color: #ffc107; color: #333; } /* Vàng */
+.status-hidden { background-color: #6c757d; } /* Xám */
+
+/* Nút hành động */
+.c2c-product-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 100px; /* Đảm bảo các nút không bị vỡ layout */
+}

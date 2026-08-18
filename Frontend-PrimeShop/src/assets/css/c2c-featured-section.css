@@ -1,0 +1,53 @@
+/* Vị trí: src/assets/css/c2c-featured-section.css */
+
+.c2c-featured-section {
+  /* Tái sử dụng layout container của PrimeShop 
+     (Giả sử sếp có 1 container chung) */
+  width: 90%;
+  max-width: 1300px;
+  margin: 2.5rem auto; /* Khoảng cách "thở" với các section khác */
+  padding: 24px;
+  background-color: #fcfcfc; /* Nền hơi khác 1 chút */
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+}
+
+/* 1. Header của Section */
+.c2c-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.c2c-section-header h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+/* 2. Grid "Perfect 4 Cột" */
+.c2c-featured-grid {
+  display: grid;
+  gap: 20px;
+  
+  /* Layout 4 cột "chuẩn" trên Desktop 
+    (Chúng ta không dùng 'auto-fill' ở đây vì chỉ muốn 4 cột)
+  */
+  grid-template-columns: repeat(4, 1fr);
+
+  /* === Responsive "Tỉ mỉ" === */
+  
+  /* Tablet (dưới 1024px) -> 2 cột */
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Mobile (dưới 600px) -> 1 cột */
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}

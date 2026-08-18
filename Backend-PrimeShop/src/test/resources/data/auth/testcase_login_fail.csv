@@ -1,0 +1,5 @@
+username,password,expectedHttpCode,expectedMessage
+testuser,wrongpassword,401,Invalid username or password
+nonexistent,password123,401,User not found
+user123,,401,Password is required
+,password123,401,Username is required

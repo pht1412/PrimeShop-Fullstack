@@ -1,0 +1,6 @@
+username,password,email,role,expectedStatus,description
+newuser1,pass123,new1@gmail.com,USER,201,Dang ky thanh cong
+admin,pass123,admin@gmail.com,USER,400,Trung username admin
+user_test,123,invalid-email,USER,201,Email sai dinh dang
+,pass123,no-user@gmail.com,USER,400,De trong username
+user_no_pass,,nopass@gmail.com,USER,400,De trong password`

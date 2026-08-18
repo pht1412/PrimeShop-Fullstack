@@ -1,0 +1,542 @@
+/* --- 1. SETUP & ANIMATIONS --- */
+.about-body {
+  font-family: 'Inter', sans-serif;
+  background-color: #F8F9FA;
+  color: #1F2937;
+  overflow-x: hidden;
+}
+
+@keyframes aboutFadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes aboutFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.about-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease-out;
+}
+.about-reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- 2. HERO BANNER --- */
+.about-hero {
+  position: relative;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%);
+  overflow: hidden;
+}
+
+.about-hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1600') no-repeat center/cover;
+  opacity: 0.3;
+  mix-blend-mode: overlay;
+}
+
+.about-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 0 20px;
+  animation: aboutFadeInUp 1s ease-out;
+}
+
+.about-hero-content h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.about-hero-content p {
+  font-size: 1.2rem;
+  font-weight: 300;
+  opacity: 0.9;
+}
+
+/* --- 3. STATS COUNTER --- */
+.about-stats-section {
+  background: white;
+  padding: 4rem 0;
+  margin-top: -50px;
+  position: relative;
+  z-index: 5;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
+}
+
+.stats-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  text-align: center;
+}
+
+.stat-item h3 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #2563EB;
+  margin-bottom: 0.5rem;
+}
+
+.stat-item p {
+  font-size: 1rem;
+  color: #6B7280;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* --- 4. STORY SECTION --- */
+.about-story-section {
+  padding: 5rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-story-container {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  margin-bottom: 5rem;
+}
+
+.about-story-container.reverse {
+  flex-direction: row-reverse;
+}
+
+.about-story-text {
+  flex: 1;
+}
+
+.about-story-text h2 {
+  font-size: 2.2rem;
+  color: #1E3A8A;
+  margin-bottom: 1.5rem;
+  font-weight: 800;
+  position: relative;
+  display: inline-block;
+}
+
+.about-story-text h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #F59E0B;
+  margin-top: 10px;
+  border-radius: 2px;
+}
+
+.about-story-text p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #4B5563;
+  margin-bottom: 1.5rem;
+}
+
+.about-story-image {
+  flex: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  transform: perspective(1000px) rotateY(5deg);
+  transition: transform 0.5s ease;
+}
+
+.about-story-image:hover {
+  transform: perspective(1000px) rotateY(0deg);
+}
+
+.about-story-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* --- 🆕 TIMELINE SECTION (HORIZONTAL ZIG-ZAG FIXED) --- */
+.timeline-section {
+  background: #FFFFFF;
+  /* --- FIX 1: Tăng padding để chứa phần Timeline phình to --- */
+  padding: 4rem 1.5rem 8rem; 
+  position: relative;
+  /* --- FIX 2: Quan trọng để shadow không bị cắt --- */
+  overflow: visible; 
+}
+
+.timeline-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1E3A8A;
+  margin-bottom: 2rem; 
+}
+
+.timeline {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  /* --- FIX 3: Padding cực lớn 180px để giữ chỗ cho Card bay lên/xuống --- */
+  padding: 180px 0; 
+}
+
+/* Đường kẻ ngang ở giữa */
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  background-color: #E5E7EB;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  z-index: 0;
+  border-radius: 2px;
+}
+
+/* Item Timeline */
+.timeline-item {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  text-align: center;
+  padding: 0 15px;
+}
+
+/* Chấm tròn ở giữa */
+.timeline-dot {
+  width: 24px;
+  height: 24px;
+  background-color: #FFFFFF;
+  border: 5px solid #2563EB;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5);
+}
+
+.timeline-item:hover .timeline-dot {
+  background-color: #F59E0B;
+  border-color: #F59E0B;
+  transform: translate(-50%, -50%) scale(1.3);
+}
+
+/* Nội dung bên trong (Card) */
+.timeline-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1); /* Bóng đậm hơn chút để nổi */
+  border: 1px solid #F3F4F6;
+  position: relative;
+  transition: transform 0.3s ease;
+  width: 100%;
+  max-width: 260px; /* Giới hạn chiều rộng để không đè nhau */
+  margin: 0 auto;
+}
+
+.timeline-content:hover {
+  transform: translateY(-5px);
+  border-color: #BFDBFE;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+  z-index: 10; /* Nổi lên trên cùng khi hover */
+}
+
+/* --- LOGIC SO LE (ZIG-ZAG) --- */
+
+/* Lẻ (1, 3...): Nằm TRÊN dòng kẻ */
+.timeline-item:nth-child(odd) .timeline-content {
+  position: absolute;
+  bottom: 40px; /* Đẩy lên trên đường kẻ 40px */
+  left: 50%;
+  transform: translateX(-50%);
+}
+/* Mũi tên chỉ xuống */
+.timeline-item:nth-child(odd) .timeline-content::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 10px 10px 0;
+  border-style: solid;
+  border-color: #FFFFFF transparent transparent transparent;
+}
+
+/* Chẵn (2, 4...): Nằm DƯỚI dòng kẻ */
+.timeline-item:nth-child(even) .timeline-content {
+  position: absolute;
+  top: 40px; /* Đẩy xuống dưới đường kẻ 40px */
+  left: 50%;
+  transform: translateX(-50%);
+}
+/* Mũi tên chỉ lên */
+.timeline-item:nth-child(even) .timeline-content::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 10px 10px;
+  border-style: solid;
+  border-color: transparent transparent #FFFFFF transparent;
+}
+
+/* Hover Effect điều chỉnh vị trí */
+.timeline-item:nth-child(odd):hover .timeline-content {
+  transform: translateX(-50%) translateY(-5px);
+}
+.timeline-item:nth-child(even):hover .timeline-content {
+  transform: translateX(-50%) translateY(5px);
+}
+
+/* Style chữ */
+.timeline-year {
+  display: inline-block;
+  background: #EFF6FF;
+  color: #2563EB;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-weight: 800;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.timeline-content h3 {
+  font-size: 1.1rem;
+  color: #1F2937;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.timeline-content p {
+  color: #6B7280;
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+/* --- 6. VALUES SECTION --- */
+.about-values-section {
+  background: linear-gradient(120deg, #1E3A8A 0%, #111827 100%);
+  padding: 5rem 1.5rem;
+  color: white;
+  text-align: center;
+}
+
+.values-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 3rem;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-value-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 2.5rem;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.about-value-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-10px);
+  border-color: #F59E0B;
+}
+
+.value-icon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  animation: aboutFloat 3s ease-in-out infinite;
+}
+
+.about-value-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #F59E0B;
+}
+
+.about-value-card p {
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* --- 7. TEAM SECTION --- */
+.about-team-section {
+  padding: 5rem 1.5rem;
+  background: #F3F4F6;
+  text-align: center;
+}
+
+.team-title {
+  font-size: 2.5rem;
+  color: #1F2937;
+  font-weight: 800;
+  margin-bottom: 3rem;
+}
+
+.team-grid {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.about-team-member {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  width: 280px;
+  transition: transform 0.3s;
+}
+
+.about-team-member:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.member-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+  overflow: hidden;
+  border: 4px solid #EFF6FF;
+}
+
+.member-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about-team-member h4 {
+  font-size: 1.2rem;
+  color: #1E3A8A;
+  margin-bottom: 0.5rem;
+}
+
+.about-team-member span {
+  color: #2563EB;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.about-cta-btn {
+  display: inline-block;
+  background: #1E3A8A;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+.about-cta-btn:hover {
+  background: #2563EB;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+}
+
+/* --- RESPONSIVE MOBILE (VẪN DỌC NHƯ CŨ) --- */
+@media (max-width: 1024px) {
+  .about-hero-content h1 { font-size: 2.5rem; }
+  .about-story-container, .about-story-container.reverse { flex-direction: column; gap: 2rem; }
+  .about-story-image { transform: none; width: 100%; height: 300px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* TIMELINE RESPONSIVE: RESET VỀ DỌC */
+  .timeline {
+    flex-direction: column;
+    /* Reset padding lớn về 0 */
+    padding: 0 0 0 30px; 
+    margin-bottom: 3rem;
+  }
+  
+  .timeline-section {
+    /* Reset padding section */
+    padding: 4rem 1.5rem; 
+  }
+
+  .timeline::after {
+    width: 4px;
+    height: 100%;
+    top: 0;
+    left: 10px; /* Đường kẻ về bên trái */
+    transform: none;
+  }
+
+  .timeline-item {
+    text-align: left;
+    padding: 0 0 0 30px;
+    margin-bottom: 40px;
+  }
+
+  .timeline-dot {
+    left: 12px;
+    top: 20px;
+    transform: none;
+  }
+
+  /* Reset Card Position: Hủy bỏ absolute */
+  .timeline-item:nth-child(odd) .timeline-content,
+  .timeline-item:nth-child(even) .timeline-content {
+    position: relative;
+    top: auto; bottom: auto; left: auto;
+    transform: none;
+    width: 100%;
+    max-width: none;
+  }
+
+  /* Ẩn mũi tên tam giác trên mobile */
+  .timeline-item:nth-child(odd) .timeline-content::after,
+  .timeline-item:nth-child(even) .timeline-content::after {
+    display: none;
+  }
+  
+  /* Reset Hover Mobile */
+  .timeline-item:nth-child(odd):hover .timeline-content,
+  .timeline-item:nth-child(even):hover .timeline-content {
+    transform: translateY(-5px);
+  }
+}
+
+@media (max-width: 640px) {
+  .about-hero-content h1 { font-size: 2rem; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .team-grid { gap: 2rem; }
+}

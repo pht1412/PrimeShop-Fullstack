@@ -1,0 +1,26 @@
+.admin-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .admin-desc {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .admin-card {
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    font-size: 18px;
+    font-weight: 500;
+  }
+  

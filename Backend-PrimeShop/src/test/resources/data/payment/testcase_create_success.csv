@@ -1,0 +1,2 @@
+orderId,amount,expectedUrlStart
+10058,30990000,https://sandbox.vnpayment.vn/paymentv2/vpcpay.html

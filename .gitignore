@@ -1,0 +1,13 @@
+# Node / React / Vite (Frontend)
+**/node_modules/
+**/dist/
+**/.env
+
+# Java / Maven / Spring Boot (Backend)
+**/target/
+**/*.class
+
+# IDE & Hệ điều hành
+.vscode/
+.idea/
+.DS_Store

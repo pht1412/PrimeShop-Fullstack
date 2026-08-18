@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini AI Chatbot - Tư vấn sản phẩm</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <div class="chat-container">
+    <div class="chat-header">💬 Gemini AI - Tư vấn sản phẩm</div>
+    
+    <div id="chatBody" class="chat-body">
+      <div class="bot message">
+        Xin chào 👋! Tôi là trợ lý Gemini. Bạn muốn tìm sản phẩm gì hôm nay?
+      </div>
+    </div>
+
+    <div class="chat-footer">
+      <input id="question" type="text" placeholder="Nhập câu hỏi..." onkeypress="handleEnter(event)" />
+      <button onclick="ask()">Gửi</button>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "https://localhost:8080/api/gemini/advice";
+    const chatBody = document.getElementById("chatBody");
+    const input = document.getElementById("question");
+
+    function addMessage(text, sender = "bot") {
+      const msg = document.createElement("div");
+      msg.className = sender + " message";
+      msg.textContent = text;
+      chatBody.appendChild(msg);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    async function ask() {
+      const question = input.value.trim();
+      if (!question) return;
+
+      addMessage(question, "user");
+      input.value = "";
+      addMessage("⏳ Đang tư vấn...", "bot");
+
+      try {
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question }),
+        });
+
+        const data = await res.json();
+        const botMessage =
+          typeof data.answer === "string"
+            ? data.answer
+            : JSON.stringify(data, null, 2);
+
+        chatBody.removeChild(chatBody.lastChild); // xoá “Đang tư vấn...”
+        addMessage(botMessage, "bot");
+      } catch (err) {
+        chatBody.removeChild(chatBody.lastChild);
+        addMessage("⚠️ Lỗi kết nối đến server!", "bot");
+        console.error(err);
+      }
+    }
+
+    function handleEnter(e) {
+      if (e.key === "Enter") ask();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+/* Vị trí: src/assets/css/c2c-product-detail-page.css */
+
+.c2c-detail-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 24px;
+}
+
+/* === A. Layout 2 Cột Chính === */
+.c2c-detail-main {
+  display: flex;
+  gap: 30px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Cột Trái: Gallery Ảnh (45%) */
+.c2c-gallery {
+  flex: 0 0 45%;
+}
+
+.c2c-gallery-main-image {
+  width: 100%;
+  height: 450px; /* Cố định chiều cao ảnh chính */
+  background-color: #f5f5f5;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.c2c-gallery-main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Dùng 'contain' để xem rõ ảnh thật */
+}
+
+.c2c-gallery-thumbnails {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap; /* Cho phép xuống dòng nếu nhiều ảnh */
+}
+.c2c-gallery-thumbnails img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+.c2c-gallery-thumbnails img:hover {
+  border-color: #aaa;
+}
+.c2c-gallery-thumbnails img.active {
+  border-color: #007bff; /* Màu primary */
+}
+
+/* Cột Phải: Thông tin (55%) */
+.c2c-info {
+  flex: 1 1 55%;
+  display: flex;
+  flex-direction: column;
+}
+
+.c2c-info-brand {
+  font-size: 0.9rem;
+  color: #666;
+  text-transform: uppercase;
+}
+.c2c-info-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #222;
+  margin: 5px 0 15px 0;
+}
+.c2c-info-price {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #d70018; /* Màu đỏ giá */
+  margin-bottom: 15px;
+}
+
+/* Badge "Đã bán" */
+.c2c-info-sold-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #dc3545;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+/* "Trái tim" C2C */
+.c2c-info-meta {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+.meta-item svg {
+  color: #007bff;
+}
+.meta-item:first-child {
+  margin-bottom: 12px;
+}
+
+/* Nút CTA */
+.c2c-info-actions {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+.c2c-info-actions .MuiButton-root {
+  flex-grow: 1; /* Hai nút to bằng nhau */
+}
+
+/* Box Tin tưởng */
+.c2c-info-trust-box {
+  display: flex;
+  gap: 15px;
+  padding: 15px;
+  background-color: #e6f7ff; /* Nền xanh nhạt */
+  border: 1px solid #b3e0ff;
+  border-radius: 8px;
+}
+.c2c-info-trust-box svg {
+  font-size: 2rem;
+  color: #007bff;
+  margin-top: 5px;
+}
+.trust-box-content h3 {
+  font-size: 1.1rem;
+  color: #0056b3;
+    margin: 0;
+}
+.trust-box-content p {
+  font-size: 0.9rem;
+  color: #333;
+  margin: 5px 0 0 0;
+}
+
+/* === B. Khu vực Mô tả === */
+.c2c-detail-description {
+  margin-top: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.c2c-detail-description h2 {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+}
+.c2c-detail-description p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #444;
+}
+
+/* === C. Khu vực Người bán === */
+.c2c-detail-seller {
+  margin-top: 24px;
+}
+.c2c-detail-seller h2 {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+}
+.seller-info-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background-color: #fdfdfd;
+  border: 1px solid #eee;
+  padding: 20px;
+  border-radius: 8px;
+}
+.seller-info-card img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+.seller-info-details {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.seller-info-details strong {
+  font-size: 1.2rem;
+}
+.seller-info-details span {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* === Các trạng thái Loading/Error === */
+.c2c-detail-loading,
+.c2c-detail-error {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #888;
+}
+.c2c-detail-error {
+  color: #d70018;
+}

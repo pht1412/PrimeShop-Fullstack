@@ -1,0 +1,522 @@
+/* --- 1. GLOBAL LAYOUT --- */
+.account-page {
+  padding: 2rem 0 4rem;
+  background-color: #F3F4F6; /* Xám nhạt hiện đại hơn */
+  font-family: 'Inter', sans-serif;
+  min-height: 80vh;
+}
+
+.account-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* --- 2. SIDEBAR --- */
+.account-sidebar {
+  width: 260px; /* Rộng hơn chút */
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 0;
+  border-bottom: 1px solid #E5E7EB;
+  margin-bottom: 10px;
+}
+
+.sidebar-avatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.sidebar-info h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1F2937;
+  margin: 0;
+  margin-bottom: 4px;
+}
+
+.edit-profile {
+  font-size: 0.85rem;
+  color: #6B7280;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.edit-profile:hover { color: #1E3A8A; }
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  color: #4B5563;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  margin-bottom: 5px;
+}
+
+.sidebar-item:hover {
+  background-color: #E0E7FF;
+  color: #1E3A8A;
+}
+
+.sidebar-item.active {
+  color: #1E3A8A;
+  font-weight: 600;
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border-left: 4px solid #1E3A8A; /* Điểm nhấn active */
+}
+
+.sidebar-icon { font-size: 1.2rem; color: #9CA3AF; }
+.sidebar-item.active .sidebar-icon { color: #1E3A8A; }
+
+/* --- 3. MAIN CONTENT --- */
+.account-content {
+  flex: 1;
+  background: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  padding: 2.5rem;
+  min-height: 600px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1F2937;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #F3F4F6;
+  margin-bottom: 2rem;
+}
+
+.section-subtitle {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.95rem;
+  color: #6B7280;
+  font-weight: 400;
+}
+
+/* --- 4. SEARCH BAR (ĐÃ LÀM ĐẸP) --- */
+.order-search-container {
+  position: relative;
+  margin-bottom: 2rem;
+  max-width: 100%;
+}
+
+.order-search-box {
+  width: 100%;
+  padding: 14px 20px 14px 50px; /* Padding trái để chừa chỗ icon */
+  border: 2px solid #E5E7EB;
+  border-radius: 50px; /* Bo tròn viên thuốc */
+  background-color: #FFFFFF;
+  font-size: 1rem;
+  color: #1F2937;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.order-search-box::placeholder {
+  color: #9CA3AF;
+}
+
+.order-search-box:focus {
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); /* Hiệu ứng tỏa sáng */
+}
+
+.search-icon-absolute {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9CA3AF;
+  font-size: 1.1rem;
+  transition: color 0.3s;
+}
+
+.order-search-box:focus + .search-icon-absolute {
+  color: #3B82F6; /* Icon đổi màu khi focus */
+}
+
+/* --- 5. ORDER TABS & CARD --- */
+.order-tabs-header {
+  display: flex;
+  border-bottom: 1px solid #E5E7EB;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  gap: 1.5rem;
+}
+
+.order-tab-item {
+  padding: 12px 5px;
+  font-size: 1rem;
+  color: #6B7280;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.order-tab-item:hover { color: #1E3A8A; }
+
+.order-tab-item.active {
+  color: #1E3A8A;
+  border-bottom-color: #1E3A8A;
+  font-weight: 700;
+}
+
+.order-card {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #F3F4F6;
+  background: #FAFAFA;
+}
+
+.shop-name {
+  font-weight: 700;
+  color: #1F2937;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* --- STATUS BADGES (CẬP NHẬT MÀU SẮC RÕ RÀNG) --- */
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Nhóm 1: Chờ xử lý (Màu Cam/Vàng) */
+.status-pending { background: #FFF7ED; color: #C2410C; border: 1px solid #FFEDD5; }
+
+/* Nhóm 2: Đã xác nhận / Thanh toán (Màu Xanh Dương Đậm) */
+.status-confirmed, .status-paid { background: #EFF6FF; color: #1D4ED8; border: 1px solid #DBEAFE; }
+
+/* Nhóm 3: Vận chuyển (Màu Xanh Trời) */
+.status-shipping, .status-shipped, .status-ready { background: #F0F9FF; color: #0284C7; border: 1px solid #E0F2FE; }
+
+/* Nhóm 4: Thành công (Màu Xanh Lá) */
+.status-success { background: #ECFDF5; color: #059669; border: 1px solid #D1FAE5; }
+
+/* Nhóm 5: Thất bại / Hủy (Màu Đỏ) */
+.status-danger { background: #FEF2F2; color: #DC2626; border: 1px solid #FEE2E2; }
+
+/* Nhóm 6: Hoàn trả / Khác (Màu Xám) */
+.status-neutral { background: #F3F4F6; color: #4B5563; border: 1px solid #E5E7EB; }
+
+
+/* Card Body */
+.card-body {
+  padding: 1.5rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.product-thumb {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  background-color: #F9FAFB;
+}
+
+.product-info { flex: 1; }
+
+.product-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.product-variant {
+  font-size: 0.9rem;
+  color: #6B7280;
+}
+
+/* Card Footer */
+.card-footer {
+  padding: 1.2rem 1.5rem;
+  border-top: 1px solid #F3F4F6;
+  background: #FFFFFF;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.total-price {
+  font-size: 1.4rem;
+  color: #DC2626;
+  font-weight: 700;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* Buttons */
+.btn-action {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid transparent;
+}
+
+.btn-fill-primary {
+  background: #DC2626;
+  color: white;
+  box-shadow: 0 2px 5px rgba(220, 38, 38, 0.3);
+}
+.btn-fill-primary:hover { background: #B91C1C; transform: translateY(-1px); }
+
+.btn-fill-blue {
+  background: #1E3A8A;
+  color: white;
+}
+.btn-fill-blue:hover { opacity: 0.9; }
+
+.btn-outline {
+  background: white;
+  border-color: #D1D5DB;
+  color: #374151;
+}
+.btn-outline:hover { background: #F9FAFB; border-color: #9CA3AF; }
+
+.btn-chat {
+  background: #EFF6FF;
+  color: #2563EB;
+  border-color: #BFDBFE;
+}
+.btn-chat:hover { background: #DBEAFE; }
+
+/* Profile Form Styles (Giữ nguyên hoặc tinh chỉnh nhẹ) */
+.profile-layout { display: flex; gap: 3rem; align-items: flex-start; }
+.profile-form-col { flex: 1; }
+.form-group-row { display: flex; align-items: center; margin-bottom: 1.5rem; }
+.form-label { width: 140px; text-align: right; padding-right: 20px; color: #4B5563; font-weight: 500; }
+.form-input { width: 100%; padding: 12px 15px; border: 1px solid #E5E7EB; border-radius: 6px; transition: border-color 0.2s; }
+.form-input:focus { border-color: #3B82F6; outline: none; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+.btn-save { background: #1E3A8A; color: white; border: none; padding: 12px 30px; border-radius: 6px; cursor: pointer; margin-left: 140px; font-weight: 600; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .account-container { flex-direction: column; }
+  .account-sidebar { width: 100%; flex-direction: row; overflow-x: auto; padding-bottom: 10px; }
+  .profile-layout { flex-direction: column-reverse; }
+  .card-footer { flex-direction: column; align-items: flex-end; gap: 15px; }
+  .action-buttons { width: 100%; justify-content: flex-end; flex-wrap: wrap; }
+  .form-group-row { flex-direction: column; align-items: flex-start; gap: 5px; }
+  .form-label { text-align: left; width: 100%; }
+  .btn-save { margin-left: 0; width: 100%; }
+}
+
+/* =========================================
+   PAYMENT MODAL STYLES (Swal)
+   ========================================= */
+.swal2-popup {
+    border-radius: 16px !important;
+}
+
+.payment-modal-container {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: left;
+    padding: 0 10px;
+}
+
+/* Header */
+.payment-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.payment-label {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0;
+}
+
+.payment-amount {
+    font-size: 32px;
+    font-weight: 800;
+    color: #d32f2f; /* Màu đỏ nhấn mạnh số tiền */
+    margin: 5px 0 15px 0;
+    letter-spacing: -0.5px;
+}
+
+.payment-divider {
+    height: 1px;
+    background: #e2e8f0;
+    width: 60%;
+    margin: 0 auto 15px auto;
+}
+
+.payment-sub {
+    font-size: 13px;
+    color: #94a3b8;
+    margin: 0;
+}
+
+/* Grid Layout */
+.payment-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+/* Buttons */
+.payment-btn {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    text-align: left;
+}
+
+.payment-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+/* Icon & Info inside Button */
+.btn-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.btn-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.btn-info {
+    flex: 1;
+}
+
+.btn-title {
+    display: block;
+    font-weight: 600;
+    font-size: 15px;
+    color: #334155;
+}
+
+.btn-desc {
+    display: block;
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+
+/* --- Brand Colors --- */
+
+/* VNPAY */
+.btn-vnpay:hover { border-color: #005ba3; background: #f8fbff; }
+.btn-vnpay .btn-icon { background: #e0f2fe; color: #0284c7; }
+
+/* Wallet (Prime) */
+.btn-wallet { border-color: #bfdbfe; background: #eff6ff; }
+.btn-wallet:hover { border-color: #2563eb; background: #dbeafe; }
+.btn-wallet .btn-icon { background: #2563eb; color: white; }
+.btn-wallet .btn-title { color: #1e40af; }
+.btn-wallet .btn-desc { color: #60a5fa; }
+
+/* MoMo */
+.btn-momo:hover { border-color: #d946ef; background: #fdf4ff; }
+.btn-momo .btn-icon { background: #fae8ff; color: #a21caf; }
+
+/* PayPal */
+.btn-paypal:hover { border-color: #00457C; background: #f0f9ff; }
+.btn-paypal .btn-icon { background: #e0f2fe; color: #00457C; }
+
+/* Badge */
+.badge-discount {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #ef4444;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 99px;
+    text-transform: uppercase;
+}

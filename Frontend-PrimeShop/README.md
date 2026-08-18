@@ -1,0 +1,13 @@
+Chức Năng:
+- Đăng nhập/ đăng ký (đã css)
+- Yêu thích (đã css, chưa có logic, lỗi khi reset trang sẽ mất yêu thích, chưa có data)
+- Giỏ hàng (đã css)
+- Trang chủ (đã css)
+- Banner quảng cáo (đã css)
+- Danh mục sản phẩm (đã css)
+- Chi tiết sản phẩm (đã css, dùng thử data mẫu ổn)
+- Menubar sản phẩm (đã css phần Phone,...)
+- Tin tức (đã css)
+- Kiểm tra đơn hàng (đã css, nhưng lỗi không tìm được component OrderTrackingPages)
+- Tài khoản (đã css)
+- Footer dưới (đã css)

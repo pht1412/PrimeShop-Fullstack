@@ -1,0 +1,98 @@
+/* File: src/.../chatc2c/styles/chatbox.css */
+
+/* Khung bao tổng thể - Mặc định mở */
+.chatbox-container {
+    position: fixed;
+    bottom: 0;
+    right: 20px;
+    width: 900px; /* Độ rộng khi mở */
+    height: 600px; /* Độ cao khi mở */
+    background: white;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid #e4e6eb;
+}
+
+/* Trạng thái thu nhỏ (Collapsed) */
+.chatbox-container.collapsed {
+    height: 48px;  /* Chỉ hiện Header */
+    width: 320px;  /* Thu hẹp chiều ngang */
+    cursor: pointer;
+    overflow: hidden;
+}
+
+/* Header của Chatbox */
+.chatbox-header {
+    background: #0084ff; /* Messenger Blue */
+    background: linear-gradient(90deg, #0084ff 0%, #0099ff 100%);
+    color: white;
+    padding: 0 16px;
+    height: 48px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    user-select: none;
+}
+
+/* Vùng chứa Title và Badge ở Header */
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+}
+
+/* Nút Toggle (Mũi tên lên xuống) */
+.chatbox-toggle {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.chatbox-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Badge số tin nhắn chưa đọc trên Header (khi đóng) */
+.header-badge {
+    background: #ff3b30; /* Màu đỏ thông báo */
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    min-width: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
+
+/* Vùng nội dung chính (Ẩn khi collapsed) */
+.chatbox-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Tránh vỡ layout */
+    background: #fff;
+}

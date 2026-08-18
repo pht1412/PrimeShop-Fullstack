@@ -1,0 +1,79 @@
+/* --- 1. Container chính (Cái thẻ card) --- */
+.sellerInfoCard {
+    display: flex; /* Dùng flexbox để chia layout avatar / info */
+    align-items: flex-start; /* Căn các item lên trên cùng */
+    gap: 16px; /* Khoảng cách giữa avatar và text */
+    
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 24px; /* Khoảng cách với phần tử bên dưới */
+}
+
+/* --- 2. Avatar/Logo của shop --- */
+.avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%; /* Bo tròn thành hình tròn */
+    object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    border: 2px solid #f0f0f0;
+}
+
+/* --- 3. Khối thông tin bên phải --- */
+.info {
+    flex: 1; /* Tự động lấp đầy không gian còn lại */
+}
+
+.shopName {
+    font-size: 1.25rem; /* 20px */
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0; /* Xóa margin mặc định của h3 */
+    margin-bottom: 4px;
+}
+
+.description {
+    font-size: 0.9rem; /* 14.4px */
+    color: #555;
+    margin: 0;
+    margin-bottom: 12px;
+}
+
+.phone {
+    font-size: 0.9rem;
+    color: #333;
+    margin: 0;
+    margin-bottom: 12px;
+}
+
+/* --- 4. Phần Status (Nhãn trạng thái) --- */
+.statusWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.statusBadge {
+    padding: 4px 12px;
+    border-radius: 16px; /* Bo tròn (pill shape) */
+    font-size: 0.75rem; /* 12px */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Màu cho trạng thái "Hoạt động" (dùng logic class ở JSX) */
+.active {
+    background-color: #e0f2e9; /* Nền xanh lá nhạt */
+    color: #006425; /* Chữ xanh lá đậm */
+}
+
+/* Màu cho trạng thái "Không hoạt động" */
+.inactive {
+    background-color: #fbe9e7; /* Nền đỏ nhạt */
+    color: #b71c1c; /* Chữ đỏ đậm */
+}

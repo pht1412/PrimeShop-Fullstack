@@ -1,0 +1,14 @@
+test_case_id,api_endpoint,method,test_description,input_data,expected_status,expected_response_field,expected_value
+CONTENT_008,/api/news/99999,GET,Lấy tin tức không tồn tại theo ID,none,404,status,ERROR
+CONTENT_009,/api/news/slug/tin-khong-ton-tai-xyz,GET,Lấy tin tức theo slug không tồn tại,none,404,status,ERROR
+CONTENT_010,/api/news,GET,Phân trang với page âm,page=-1&size=10,400,message,Tham số trang không hợp lệ
+CONTENT_011,/api/news,GET,Phân trang với size bằng 0,page=0&size=0,400,message,Kích thước trang không hợp lệ
+CONTENT_012,/api/news,GET,Phân trang với size âm,page=0&size=-5,400,message,Kích thước trang không hợp lệ
+CONTENT_015,/api/news,GET,Tìm kiếm với từ khóa SQL Injection,"search='; DROP TABLE News;--",400,message,Tham số không hợp lệ
+CONTENT_016,/api/news,GET,Tìm kiếm với ký tự đặc biệt XSS,search=<script>alert(1)</script>,400,message,Tham số không hợp lệ
+CONTENT_017,/api/news,GET,Tìm kiếm với categoryId không hợp lệ,categoryId=abc&page=0&size=10,400,message,Category ID phải là số
+CONTENT_018,/api/news,GET,Tìm kiếm với categoryId âm,categoryId=-1&page=0&size=10,400,message,Category ID không hợp lệ
+CONTENT_021,/api/news,POST,Tạo tin tức với title rỗng (cần admin),"title=&textUrl=https://example.com/article&status=ACTIVE",400,message,Title không được để trống
+CONTENT_022,/api/news,POST,Tạo tin tức với title quá ngắn (cần admin),"title=AB&textUrl=https://example.com/article&status=ACTIVE",400,message,Title phải có ít nhất 5 ký tự
+CONTENT_031,/api/news,POST,Tạo tin tức không có token,none,401,message,Unauthorized
+CONTENT_040,/api/news/0,GET,Lấy tin tức với ID = 0,page=0&size=10,404,message,Tin tức không tồn tại

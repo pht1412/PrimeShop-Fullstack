@@ -1,0 +1,17 @@
+test_case_id,api_endpoint,method,test_description,input_data,expected_status,expected_response_field,expected_value
+PRODUCT_001,/api/product,GET,Lấy tất cả sản phẩm đang hoạt động,none,200,status,SUCCESS
+PRODUCT_002,/api/product/category,GET,Lấy sản phẩm theo category,dien-thoai,200,status,SUCCESS
+PRODUCT_003,/api/product/slug,GET,Lấy sản phẩm theo slug,iphone-15-pro-max,200,status,SUCCESS
+PRODUCT_004,/api/product/all-products,GET,Tìm kiếm sản phẩm với phân trang hợp lệ,page=0&size=10,200,status,SUCCESS
+PRODUCT_005,/api/product/brands,GET,Lấy danh sách thương hiệu,none,200,status,SUCCESS
+PRODUCT_006,/api/product/hot-sale,GET,Lấy sản phẩm hot sale,none,200,status,SUCCESS
+PRODUCT_007,/api/product/discount,GET,Lấy sản phẩm giảm giá,none,200,status,SUCCESS
+PRODUCT_008,/api/product/top-rated,GET,Lấy sản phẩm được đánh giá cao,none,200,status,SUCCESS
+PRODUCT_009,/api/product/count,GET,Đếm tổng số sản phẩm,none,200,status,SUCCESS
+PRODUCT_014,/api/product/rate,POST,Đánh giá sản phẩm hợp lệ,"{""productSlug"":""iphone-15-pro-max"",""rating"":4.5}",200,status,SUCCESS
+PRODUCT_026,/api/product,GET,Lấy sản phẩm theo category với page hợp lệ,categorySlug=laptop&page=0&size=5,200,status,SUCCESS
+PRODUCT_027,/api/product/all-products,GET,Tìm kiếm với keyword tiếng Việt,keyword=điện thoại,200,status,SUCCESS
+PRODUCT_028,/api/product/all-products,GET,Tìm kiếm với keyword empty,keyword=,200,status,SUCCESS
+PRODUCT_030,/api/product/rate,POST,Đánh giá 2 lần liên tiếp,"{""productSlug"":""iphone-15-pro-max"",""rating"":5}",200,status,SUCCESS
+PRODUCT_031,/api/product/rate,POST,Đánh giá với rating thập phân,"{""productSlug"":""iphone-15-pro-max"",""rating"":3.7}",200,status,SUCCESS
+PRODUCT_036,/api/product/all-products,GET,Tìm kiếm với page vượt quá giới hạn,page=999999&size=10,200,status,SUCCESS

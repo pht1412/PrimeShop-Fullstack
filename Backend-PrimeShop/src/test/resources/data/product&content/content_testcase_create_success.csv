@@ -1,0 +1,13 @@
+test_case_id,api_endpoint,method,test_description,input_data,expected_status,expected_response_field,expected_value
+CONTENT_001,/api/news,GET,Lấy tất cả tin tức với phân trang hợp lệ,page=0&size=10,200,status,SUCCESS
+CONTENT_002,/api/news,GET,Lấy tin tức theo danh mục,categoryId=1&page=0&size=10,200,status,SUCCESS
+CONTENT_003,/api/news,GET,Tìm kiếm tin tức theo từ khóa,search=iPhone&page=0&size=10,200,status,SUCCESS
+CONTENT_004,/api/news/1,GET,Lấy tin tức theo ID,none,200,status,SUCCESS
+CONTENT_005,/api/news/slug/tin-cong-nghe-2024,GET,Lấy tin tức theo slug,none,200,status,SUCCESS
+CONTENT_006,/api/news/count,GET,Đếm tổng số tin tức,none,200,status,SUCCESS
+CONTENT_007,/api/news,GET,Lấy tin tức với phân trang mặc định,none,200,status,SUCCESS
+CONTENT_014,/api/news,GET,Tìm kiếm với từ khóa rỗng,search=&page=0&size=10,200,status,SUCCESS
+CONTENT_019,/api/news,GET,Tìm kiếm với categoryId không tồn tại,categoryId=99999&page=0&size=10,200,status,SUCCESS
+CONTENT_035,/api/news,GET,Lấy tin tức với size quá nhỏ,page=0&size=1,200,status,SUCCESS
+CONTENT_039,/api/news,GET,Tìm kiếm với số thập phân,search=12.5,200,status,SUCCESS
+CONTENT_045,/api/news/count,GET,Đếm tin tức với category không tồn tại,categoryId=99999,200,status,SUCCESS

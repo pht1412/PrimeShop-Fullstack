@@ -1,0 +1,415 @@
+/* DELIVERY DASHBOARD CONTAINER */
+.delivery-dashboard-container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px 30px;
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
+  border-radius: 10px;
+}
+
+.delivery-dashboard-container h2 {
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 25px;
+  color: #222;
+  letter-spacing: 0.03em;
+}
+
+/* TABLE STYLING */
+.delivery-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.75rem;
+  font-size: 0.95rem;
+}
+
+.delivery-table thead tr {
+  background-color: #1976d2; /* Màu xanh MUI primary */
+  color: white;
+  box-shadow: inset 0 -3px 0 #115293;
+  border-radius: 8px 8px 0 0;
+}
+
+.delivery-table thead tr th {
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 700;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.delivery-table tbody tr {
+  background: #f9fafc;
+  box-shadow: 0 4px 6px rgb(32 33 36 / 8%);
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.delivery-table tbody tr:hover {
+  background-color: #e3f2fd;
+  cursor: pointer;
+}
+
+.delivery-table tbody tr td {
+  padding: 14px 15px;
+  vertical-align: middle;
+  color: #333;
+  white-space: nowrap;
+}
+
+/* No data message */
+.no-orders {
+  font-style: italic;
+  text-align: center;
+  color: #777;
+  padding: 30px 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Status badges */
+.status-badge {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border-radius: 15px;
+  color: white;
+  display: inline-block;
+  text-transform: uppercase;
+  min-width: 100px;
+  text-align: center;
+  user-select: none;
+}
+
+/* Status colors, lưu ý phải đồng bộ với các loại status thường dùng */
+.status-badge {
+  padding: 7px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  border-radius: 18px;
+  color: white;
+  display: inline-block;
+  text-transform: uppercase;
+  min-width: 110px;
+  text-align: center;
+  user-select: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  transition: background-color 0.3s;
+}
+
+.status-pending {
+  background-color: #9e9e9e;       /* Xám nhẹ - Chờ xử lý */
+}
+
+.status-confirmed {
+  background-color: #0288d1;       /* Xanh dương tươi - Đã xác nhận */
+}
+
+.status-paid {
+  background-color: #388e3c;       /* Xanh lá - Đã thanh toán */
+}
+
+.status-payment_failed {
+  background-color: #d32f2f;       /* Đỏ đậm - Thanh toán thất bại */
+}
+
+.status-processing {
+  background-color: #f57c00;       /* Cam đậm - Đang xử lý */
+}
+
+.status-inventory {
+  background-color: #ffb300;       /* Vàng - Nhập kho/kiểm kê */
+  color: #222;
+}
+
+.status-ready_to_ship, .status-ready_ship {
+  background-color: #1976d2;       /* Xanh blue - Chờ giao */
+}
+
+.status-shipping {
+  background-color: #0288d1;       /* Xanh sáng - Đang giao */
+}
+
+.status-shipped {
+  background-color: #009688;       /* Xanh teal - Đã gửi đi */
+}
+
+.status-delivered {
+  background-color: #388e3c;       /* Xanh lá - Đã giao */
+}
+
+.status-delivered_failed,
+.status-failed_delivery {
+  background-color: #f44336;       /* Đỏ tươi - Giao thất bại */
+}
+
+.status-returned {
+  background-color: #8e24aa;       /* Tím - Đã trả hàng */
+}
+
+.status-refunded {
+  background-color: #29b6f6;       /* Xanh trời nhạt - Đã hoàn tiền */
+  color: #222;
+}
+
+.status-cancelled {
+  background-color: #d32f2f;       /* Đỏ đậm - Đã hủy */
+}
+
+.status-completed {
+  background-color: #4caf50;       /* Xanh lá non - Hoàn tất */
+  color: #fff;
+  box-shadow: 0 0 10px #4caf5077;
+}
+
+/* Responsive: badge co lại trên màn hình nhỏ */
+@media (max-width: 768px) {
+  .status-badge {
+    font-size: 0.75rem;
+    min-width: 90px;
+    padding: 5px 8px;
+  }
+}
+
+
+/* Buttons */
+button {
+  padding: 10px 18px;
+  margin-right: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: 1.8px solid #1976d2;
+  background-color: #fff;
+  color: #1976d2;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+  min-width: 110px;
+  box-shadow: 0 2px 7px rgb(25 118 210 / 0.2);
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 6px #63a4ff;
+}
+
+button:hover {
+  background-color: #1976d2;
+  color: white;
+  box-shadow: 0 5px 15px rgb(25 118 210 / 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .delivery-dashboard-container { padding: 15px 12px; }
+  
+  .delivery-table thead tr th,
+  .delivery-table tbody tr td {
+    padding: 10px 8px;
+    font-size: 0.85rem;
+  }
+  
+  button {
+    min-width: 90px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+
+
+/* TRACKING HISTORY MODAL */
+/* Modal dialog */
+.delivery-dialog {
+  border-radius: 12px;
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* Modal Title */
+.delivery-dialog-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #1976d2;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Modal Content */
+.delivery-dialog-content {
+  background-color: #fafafa;
+  padding: 16px 24px;
+  overflow-y: auto;
+}
+
+/* Message when no tracking data */
+.delivery-no-tracking {
+  padding: 40px 20px;
+  text-align: center;
+  color: #999999;
+  font-style: italic;
+  font-size: 1.1rem;
+  user-select: none;
+}
+
+/* List of tracking events */
+.delivery-tracking-list {
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* Tracking item */
+.delivery-tracking-item {
+  margin-bottom: 12px;
+  transition: background-color 0.3s ease;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.delivery-tracking-item:hover {
+  background-color: #e3f2fd;
+  cursor: default;
+}
+
+/* Status icon circle */
+.status-icon {
+  box-shadow: 0 0 8px rgb(25 118 210 / 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+/* Dialog action buttons container */
+.delivery-dialog-actions {
+  padding: 16px 24px;
+  justify-content: flex-end;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Buttons override (reuse your existing button style and add spacing) */
+.btn-close,
+.btn-refresh {
+  min-width: 110px;
+  padding: 10px 18px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: 1.8px solid #1976d2;
+  background-color: #fff;
+  color: #1976d2;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+  box-shadow: 0 2px 7px rgb(25 118 210 / 0.2);
+  margin-left: 12px;
+}
+
+.btn-close:hover,
+.btn-refresh:hover {
+  background-color: #1976d2;
+  color: white;
+  box-shadow: 0 5px 15px rgb(25 118 210 / 0.4);
+}
+
+.btn-close:disabled,
+.btn-refresh:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .delivery-dialog-title {
+    font-size: 1.2rem;
+  }
+  .delivery-dialog-content {
+    padding: 12px 16px;
+  }
+  .btn-close,
+  .btn-refresh {
+    min-width: 90px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    margin-left: 8px;
+  }
+}
+
+
+/* UPDATE STATUS MODAL */
+/* Sử dụng chung class từ modal delivery-dialog */
+
+/* Tiêu đề modal */
+.delivery-dialog-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #1976d2;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Nội dung modal */
+.delivery-dialog-content {
+  background-color: #fafafa;
+  padding: 16px 24px;
+}
+
+/* Dialog action buttons container */
+.delivery-dialog-actions {
+  padding: 16px 24px;
+  justify-content: flex-end;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Nút bấm */
+.btn-close,
+.btn-refresh {
+  min-width: 110px;
+  padding: 10px 18px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: 1.8px solid #1976d2;
+  background-color: #fff;
+  color: #1976d2;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+  box-shadow: 0 2px 7px rgb(25 118 210 / 0.2);
+  margin-left: 12px;
+}
+
+.btn-close:hover,
+.btn-refresh:hover {
+  background-color: #1976d2;
+  color: white;
+  box-shadow: 0 5px 15px rgb(25 118 210 / 0.4);
+}
+
+.btn-close:disabled,
+.btn-refresh:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Responsive cho modal */
+@media (max-width: 768px) {
+  .delivery-dialog-title {
+    font-size: 1.2rem;
+  }
+  .delivery-dialog-content {
+    padding: 12px 16px;
+  }
+  .btn-close,
+  .btn-refresh {
+    min-width: 90px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    margin-left: 8px;
+  }
+}
+

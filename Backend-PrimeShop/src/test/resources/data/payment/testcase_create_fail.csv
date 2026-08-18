@@ -1,0 +1,4 @@
+orderId,amount,expectedHttpCode,expectedMessage
+99999,50000,400,Không tìm thấy đơn hàng
+-1,100000,400,Mã đơn hàng không hợp lệ
+10058,-50000,400,Số tiền thanh toán không hợp lệ

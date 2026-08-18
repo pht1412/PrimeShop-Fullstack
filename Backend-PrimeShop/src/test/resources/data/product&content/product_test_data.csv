@@ -1,0 +1,41 @@
+test_case_id,api_endpoint,method,test_description,input_data,expected_status,expected_response_field,expected_value
+PRODUCT_001,/api/product,GET,Lấy tất cả sản phẩm đang hoạt động,none,200,status,SUCCESS
+PRODUCT_002,/api/product/category,GET,Lấy sản phẩm theo category,dien-thoai,200,status,SUCCESS
+PRODUCT_003,/api/product/slug,GET,Lấy sản phẩm theo slug,iphone-15-pro-max,200,status,SUCCESS
+PRODUCT_004,/api/product/all-products,GET,Tìm kiếm sản phẩm với phân trang hợp lệ,page=0&size=10,200,status,SUCCESS
+PRODUCT_005,/api/product/brands,GET,Lấy danh sách thương hiệu,none,200,status,SUCCESS
+PRODUCT_006,/api/product/hot-sale,GET,Lấy sản phẩm hot sale,none,200,status,SUCCESS
+PRODUCT_007,/api/product/discount,GET,Lấy sản phẩm giảm giá,none,200,status,SUCCESS
+PRODUCT_008,/api/product/top-rated,GET,Lấy sản phẩm được đánh giá cao,none,200,status,SUCCESS
+PRODUCT_009,/api/product/count,GET,Đếm tổng số sản phẩm,none,200,status,SUCCESS
+PRODUCT_010,/api/product/slug,GET,Lấy sản phẩm không tồn tại,san-pham-khong-ton-tai-xyz,404,status,ERROR
+PRODUCT_011,/api/product/all-products,GET,Phân trang với page âm,page=-1&size=10,400,message,Tham số trang không hợp lệ
+PRODUCT_012,/api/product/all-products,GET,Phân trang với size bằng 0,page=0&size=0,400,message,Kích thước trang không hợp lệ
+PRODUCT_013,/api/product/all-products,GET,Phân trang với size âm,page=0&size=-5,400,message,Kích thước trang không hợp lệ
+PRODUCT_014,/api/product/rate,POST,Đánh giá sản phẩm hợp lệ,"{""productSlug"":""iphone-15-pro-max"",""rating"":4.5}",200,status,SUCCESS
+PRODUCT_015,/api/product/rate,POST,Đánh giá sản phẩm với rating > 5,"{""productSlug"":""iphone-15-pro-max"",""rating"":6.0}",400,message,Xếp hạng phải từ 1 đến 5
+PRODUCT_016,/api/product/rate,POST,Đánh giá sản phẩm với rating = 0,"{""productSlug"":""iphone-15-pro-max"",""rating"":0}",400,message,Xếp hạng phải từ 1 đến 5
+PRODUCT_017,/api/product/rate,POST,Đánh giá sản phẩm không có token,"{""productSlug"":""iphone-15-pro-max"",""rating"":4}",401,message,Unauthorized
+PRODUCT_018,/api/product/add-images,POST,Upload file không phải ảnh (cần admin),"file=virus_code&productSlug=iphone-15-pro-max",400,message,Định dạng file không hỗ trợ
+PRODUCT_019,/api/product/add-images,POST,Upload file với extension giả mạo (cần admin),"file=fake.jpg.exe&productSlug=iphone-15-pro-max",400,message,Định dạng file không hỗ trợ
+PRODUCT_020,/api/product/category,GET,Category không tồn tại,category-khong-ton-tai,404,status,ERROR
+PRODUCT_021,/api/product/all-products,GET,Tìm kiếm với từ khóa SQL Injection,"; DROP TABLE Product;--",400,message,Tham số không hợp lệ
+PRODUCT_022,/api/product/all-products,GET,Tìm kiếm với ký tự đặc biệt,XSS<script>alert(1)</script>,400,message,Tham số không hợp lệ
+PRODUCT_023,/api/product/rate,POST,Đánh giá sản phẩm không tồn tại,"{""productSlug"":""san-pham-fake-xyz"",""rating"":5}",404,message,Sản phẩm không tồn tại
+PRODUCT_024,/api/product/rate,POST,Đánh giá với rating là chữ,"{""productSlug"":""iphone-15-pro-max"",""rating"":""abc""}",400,message,Xếp hạng phải là số
+PRODUCT_025,/api/product/add-images,POST,Upload file quá lớn (cần admin),file=large_content&productSlug=iphone-15-pro-max,400,message,Kích thước file vượt quá giới hạn
+PRODUCT_026,/api/product,GET,Lấy sản phẩm theo category với page hợp lệ,categorySlug=laptop&page=0&size=5,200,status,SUCCESS
+PRODUCT_027,/api/product/all-products,GET,Tìm kiếm với keyword tiếng Việt,keyword=điện thoại,200,status,SUCCESS
+PRODUCT_028,/api/product/all-products,GET,Tìm kiếm với keyword empty,keyword=,200,status,SUCCESS
+PRODUCT_029,/api/product/all-products,GET,Tìm kiếm với ký tự đặc biệt nguy hiểm,"keyword=<img src=x onerror=alert(1)>",400,message,Tham số không hợp lệ
+PRODUCT_030,/api/product/rate,POST,Đánh giá 2 lần liên tiếp,"{""productSlug"":""iphone-15-pro-max"",""rating"":5}",200,status,SUCCESS
+PRODUCT_031,/api/product/rate,POST,Đánh giá với rating thập phân,"{""productSlug"":""iphone-15-pro-max"",""rating"":3.7}",200,status,SUCCESS
+PRODUCT_032,/api/product/rate,POST,Đánh giá với rating âm,"{""productSlug"":""iphone-15-pro-max"",""rating"":-1}",400,message,Xếp hạng phải từ 1 đến 5
+PRODUCT_033,/api/product/add-images,POST,Upload file .exe (cần admin),"file=malware.exe&productSlug=iphone-15-pro-max",400,message,Định dạng file không hỗ trợ
+PRODUCT_034,/api/product/add-images,POST,Upload file .php (cần admin),"file=shell.php&productSlug=iphone-15-pro-max",400,message,Định dạng file không hỗ trợ
+PRODUCT_035,/api/product/category,GET,Category với slug có khoảng trắng,"categorySlug=laptop gaming",400,message,Tham số không hợp lệ
+PRODUCT_036,/api/product/all-products,GET,Tìm kiếm với page vượt quá giới hạn,page=999999&size=10,200,status,SUCCESS
+PRODUCT_037,/api/product/rate,POST,Đánh giá với JSON rỗng,none,400,message,Yêu cầu không hợp lệ
+PRODUCT_038,/api/product/rate,POST,Đánh giá thiếu productSlug,"{""rating"":5}",400,message,Thiếu thông tin sản phẩm
+PRODUCT_039,/api/product/rate,POST,Đánh giá thiếu rating,"{""productSlug"":""iphone-15-pro-max""}",400,message,Thiếu thông tin xếp hạng
+PRODUCT_040,/api/product/add-images,POST,Upload không có file (cần admin),productSlug=iphone-15-pro-max,400,message,Vui lòng chọn file

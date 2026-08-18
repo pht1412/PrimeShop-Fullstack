@@ -1,0 +1,135 @@
+.productPage {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 3rem;
+  background: linear-gradient(135deg, #f0f4f8 0%, #ffffff 100%);
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* 1. BREADCRUMB */
+.breadcrumb {
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+.breadcrumb span { cursor: pointer; transition: color 0.2s; }
+.breadcrumb span:hover:not(.activeBreadcrumb) { color: #2563eb; text-decoration: underline; }
+.activeBreadcrumb { color: #111827; font-weight: 600; cursor: default; }
+
+/* 2. POLICY BOX (Trust Signals) */
+.policyBox {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #f0fdf4; /* Xanh lá siêu nhạt */
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+}
+.policyItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #166534;
+  font-weight: 500;
+}
+.policyIcon { color: #15803d; }
+
+/* Layout Chính */
+.productOverview {
+  display: flex;
+  gap: 2.5rem;
+  margin-bottom: 2rem;
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.productImages { flex: 1; max-width: 450px; display: flex; flex-direction: column; gap: 1rem; }
+.mainImage {
+  border-radius: 12px; overflow: hidden; border: 1px solid #f3f4f6;
+  background: #fff; display: flex; justify-content: center; align-items: center;
+  aspect-ratio: 1/1; position: relative;
+}
+.mainImage img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.5s; }
+.mainImage:hover img { transform: scale(1.05); }
+
+.thumbnailImages { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
+.thumbnailButton {
+  flex-shrink: 0; border: 2px solid transparent; background: none; cursor: pointer;
+  padding: 0; border-radius: 8px; overflow: hidden; transition: all 0.2s;
+}
+.thumbnailButton:hover { transform: translateY(-2px); }
+.thumbnailActive { border-color: #2563EB; box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2); }
+.thumbnail { width: 70px; height: 70px; object-fit: cover; display: block; }
+
+.productInfo { flex: 1.5; display: flex; flex-direction: column; }
+.productInfo h1 { font-size: 1.875rem; font-weight: 700; color: #111827; margin: 0 0 1rem 0; line-height: 1.3; }
+
+.metaInfo { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e5e7eb; }
+.rating { display: flex; align-items: center; gap: 0.25rem; font-size: 0.95rem; color: #4b5563; }
+.starIcon { color: #fbbf24; }
+.soldCount { padding-left: 1rem; border-left: 1px solid #e5e7eb; color: #6b7280; }
+
+.priceWrapper { background: #f8fafc; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; }
+.currentPrice { font-size: 2rem; font-weight: 700; color: #dc2626; }
+.originalPrice { font-size: 1.1rem; color: #9ca3af; text-decoration: line-through; margin-left: 1rem; }
+.discountBadge { background-color: #fee2e2; color: #dc2626; font-size: 0.875rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; margin-left: 0.5rem; vertical-align: middle; }
+
+.actions { display: flex; gap: 1rem; margin-top: auto; }
+.actions button {
+  flex: 1; padding: 0.875rem 1.5rem; border: none; border-radius: 8px;
+  font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.2s ease;
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+}
+.buyNow { background: linear-gradient(to right, #dc2626, #ef4444); color: #fff; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.3); }
+.buyNow:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.addToCart { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe !important; }
+.addToCart:hover { background: #dbeafe; }
+
+.sellerSection { margin-top: 1.5rem; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 12px; padding: 1.25rem; }
+.sellerContainer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.sellerProfile { display: flex; align-items: center; gap: 1rem; }
+.sellerAvatar { width: 56px; height: 56px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); object-fit: cover; }
+.sellerInfo h3 { font-size: 1.1rem; font-weight: 700; color: #0f172a; margin: 0; }
+.sellerStatus { display: inline-flex; align-items: center; gap: 4px; font-size: 0.8rem; color: #059669; background: #d1fae5; padding: 2px 8px; border-radius: 100px; margin-top: 4px; }
+.sellerActions { display: flex; gap: 10px; }
+.btnChat { background-color: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.2s; }
+.btnChat:hover { background-color: #1d4ed8; }
+.btnViewShop { background-color: white; color: #374151; border: 1px solid #d1d5db; padding: 8px 16px; border-radius: 6px; font-weight: 500; cursor: pointer; transition: background 0.2s; }
+.btnViewShop:hover { background-color: #f3f4f6; }
+
+/* 3. SPECS & CONTENT */
+.contentGrid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+.sectionBox { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 2rem; }
+.sectionTitle { font-size: 1.25rem; font-weight: 700; color: #1e3a8a; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid #f3f4f6; }
+.descriptionText { line-height: 1.8; color: #374151; font-size: 1rem; white-space: pre-line; }
+
+/* ZEBRA STRIPING CHO SPECS */
+.specsList { list-style: none; padding: 0; margin: 0; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; }
+.specsList li { display: flex; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid #e5e7eb; font-size: 0.95rem; }
+.specsList li:last-child { border-bottom: none; }
+.specsList li:nth-child(odd) { background-color: #f9fafb; } /* Zebra */
+.specsList strong { color: #4b5563; font-weight: 500; }
+.specsList span { color: #111827; font-weight: 600; text-align: right; }
+
+/* Reviews */
+.reviewFormBox { margin-bottom: 2rem; background: #f9fafb; padding: 1.5rem; border-radius: 8px; }
+.reviewCard { background-color: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
+.reviewHeader { display: flex; align-items: center; gap: 12px; margin-bottom: 0.75rem; }
+.reviewAvatar { width: 40px; height: 40px; border-radius: 50%; }
+.reviewName { font-weight: 700; color: #111827; display: block; }
+.reviewContent { color: #4b5563; line-height: 1.6; }
+
+@media (max-width: 1024px) {
+  .productOverview { flex-direction: column; }
+  .productImages { max-width: 100%; }
+  .contentGrid { grid-template-columns: 1fr; }
+  .sellerContainer { flex-direction: column; align-items: flex-start; }
+  .sellerActions { width: 100%; }
+  .btnChat, .btnViewShop { flex: 1; justify-content: center; }
+}

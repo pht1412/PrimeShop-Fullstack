@@ -1,0 +1,585 @@
+/* --- 1. IMPORT FONTS & RESET --- */
+/* Import font chữ viết tay để giống ảnh mẫu */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;600;800&display=swap');
+
+.body-container {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #F8F9FA;
+  color: #1F2937;
+  overflow-x: hidden;
+  padding-bottom: 4rem;
+}
+
+/* --- ANIMATION KEYFRAMES --- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-red {
+  0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+}
+
+@keyframes shine {
+  100% { left: 125%; }
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- 2. HERO SECTION --- */
+.hero-section {
+  position: relative;
+  width: 100%;
+  background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #60A5FA 100%);
+  color: white;
+  padding: 5rem 1rem 8rem;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  clip-path: ellipse(150% 100% at 50% 0%);
+}
+
+.hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  width: 100%;
+  gap: 2rem;
+  z-index: 2;
+}
+
+.hero-text {
+  flex: 1;
+  max-width: 600px;
+  animation: fadeInUp 1s ease-out;
+}
+
+.hero-text h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -1px;
+}
+
+.hero-text p {
+  font-size: 1.2rem;
+  margin-bottom: 2.5rem;
+  opacity: 0.9;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.hero-btn {
+  position: relative;
+  display: inline-block;
+  padding: 16px 40px;
+  background: #FFFFFF;
+  color: #1E3A8A;
+  font-weight: 700;
+  border-radius: 50px;
+  text-decoration: none;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.hero-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  background: #FFD700;
+  color: #1e3a8a;
+}
+
+.hero-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 100%);
+  transform: skewX(-25deg);
+  animation: shine 3s infinite;
+}
+
+.hero-image-container img {
+  max-height: 450px;
+  width: auto;
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.4));
+  animation: fadeInUp 1.2s ease-out;
+}
+
+/* --- 3. TRUST BADGES --- */
+.features-section {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  max-width: 1280px;
+  margin: -5rem auto 3rem;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 2.5rem;
+  gap: 2rem;
+  position: relative;
+  z-index: 10;
+}
+
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.3s ease;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  background: #EFF6FF;
+}
+
+.feature-card svg {
+  font-size: 2.8rem;
+  color: #3B82F6;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 4px 6px rgba(59, 130, 246, 0.3));
+}
+
+.feature-card h3 {
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+/* --- 3.5 PARTNER CAROUSEL (STYLE GIỐNG ẢNH MẪU) --- */
+.brand-carousel {
+  max-width: 100%;
+  overflow: hidden;
+  padding: 1rem 0 4rem;
+  background: transparent;
+  white-space: nowrap;
+  position: relative;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Container cho text header */
+.brand-header-box {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dòng chữ nhỏ "CÓ MẶT TẠI" */
+.brand-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 3px; /* Khoảng cách chữ rộng */
+  color: #6B7280;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+/* Dòng chữ chính "Những Nhà Phân Phối Uy Tín" */
+.brand-title {
+  font-family: 'Dancing Script', cursive; /* Font chữ viết tay */
+  font-size: 3.5rem; /* Kích thước lớn */
+  font-weight: 700;
+  color: #1F2937;
+  margin: 0;
+  line-height: 1.2;
+  text-transform: none; /* Giữ nguyên chữ thường/hoa để font script đẹp */
+}
+
+/* Chữ "Uy Tín" màu xanh (giống trong ảnh) */
+.brand-highlight {
+  color: #053096; /* Màu xanh lá đậm (Emerald) giống ảnh */
+  /* Hoặc dùng #1E3A8A nếu muốn đồng bộ màu xanh dương của web */
+}
+
+/* Làm mờ 2 bên cạnh carousel */
+.brand-carousel::before,
+.brand-carousel::after {
+  content: "";
+  position: absolute;
+  top: 80px; /* Đẩy xuống để không che Header */
+  width: 100px;
+  height: 60%;
+  z-index: 2;
+  pointer-events: none;
+}
+.brand-carousel::before {
+  left: 0;
+  background: linear-gradient(to right, #F8F9FA, transparent);
+}
+.brand-carousel::after {
+  right: 0;
+  background: linear-gradient(to left, #F8F9FA, transparent);
+}
+
+.brand-track {
+  display: inline-flex;
+  align-items: center;
+  animation: scroll-left 25s linear infinite; 
+}
+
+.brand-item {
+  margin: 0 3.5rem; 
+  flex-shrink: 0;
+}
+
+.brand-item img {
+  height: 60px; 
+  width: auto;
+  object-fit: contain;
+  /* GIỮ NGUYÊN MÀU SẮC */
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); 
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.brand-item:hover img {
+  transform: scale(1.15); 
+  cursor: pointer;
+}
+
+/* --- 4. FLASH SALE --- */
+.product-category {
+  max-width: 1280px;
+  margin: 0 auto 5rem;
+  padding: 2.5rem;
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.product-category::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 5px;
+  background: linear-gradient(90deg, #EF4444, #F59E0B, #EF4444);
+}
+
+.flash-sale-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px dashed #E5E7EB;
+}
+
+.flash-title {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #DC2626;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  letter-spacing: 1px;
+}
+
+.flash-icon {
+  animation: shake 2s infinite;
+  color: #F59E0B;
+  font-size: 2.2rem;
+}
+
+.timer-box {
+  background: linear-gradient(135deg, #DC2626 0%, #EF4444 100%);
+  color: white;
+  padding: 10px 24px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+  animation: pulse-red 2s infinite;
+}
+
+.category-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.category-tabs button {
+  padding: 12px 28px;
+  border: none;
+  background: #F3F4F6;
+  border-radius: 50px;
+  font-weight: 600;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-tabs button:hover {
+  background: #E5E7EB;
+  transform: translateY(-2px);
+}
+
+.category-tabs button.active {
+  background: #1E3A8A;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+  transform: scale(1.05);
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* --- 5. HOT SALE & NEWS --- */
+.hot-sale-container {
+  max-width: 1280px;
+  margin: 0 auto 5rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.hot-sale-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 3rem;
+  color: #111827;
+  display: inline-block;
+  position: relative;
+}
+
+.hot-sale-title::after {
+  content: "";
+  display: block;
+  width: 60%;
+  height: 6px;
+  background: #3B82F6;
+  margin: 10px auto 0;
+  border-radius: 10px;
+}
+
+.hot-sale-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.view-all-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 40px;
+  background: transparent;
+  color: #1E3A8A;
+  border: 2px solid #1E3A8A;
+  border-radius: 50px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.view-all-btn:hover {
+  background: #1E3A8A;
+  color: white;
+  box-shadow: 0 4px 15px rgba(30, 58, 138, 0.4);
+}
+
+.tech-news {
+  max-width: 1280px;
+  margin: 0 auto 5rem;
+  padding: 4rem;
+  background: linear-gradient(120deg, #E0F2FE 0%, #DBEAFE 100%);
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.tech-news::before {
+  content: "";
+  position: absolute;
+  top: -50px; right: -50px;
+  width: 300px; height: 300px;
+  background: rgba(37, 99, 235, 0.1);
+  border-radius: 50%;
+}
+
+.tech-news-content {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.tech-news-content h2 {
+  font-size: 2.5rem;
+  color: #1E3A8A;
+  margin-bottom: 1.5rem;
+  font-weight: 800;
+}
+
+.tech-news-content p {
+  font-size: 1.1rem;
+  color: #4B5563;
+  margin-bottom: 2.5rem;
+  line-height: 1.8;
+}
+
+.news-image-wrapper {
+  flex: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  transform: perspective(1000px) rotateY(-5deg);
+  transition: transform 0.5s ease;
+}
+
+.news-image-wrapper:hover {
+  transform: perspective(1000px) rotateY(0deg);
+}
+
+.news-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.general-tech-news {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.general-news-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 2.5rem;
+  border-left: 6px solid #2563EB;
+  padding-left: 1.5rem;
+  color: #111827;
+}
+
+.news-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+}
+
+.news-item {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.4s ease;
+  border: 1px solid #F3F4F6;
+}
+
+.news-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 30px rgba(0,0,0,0.1);
+}
+
+.news-item img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.news-item:hover img {
+  transform: scale(1.1);
+}
+
+.news-info {
+  padding: 1.5rem;
+}
+
+.news-info h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  color: #1F2937;
+  line-height: 1.4;
+  transition: color 0.3s;
+}
+
+.news-item:hover .news-info h3 {
+  color: #2563EB;
+}
+
+.news-info p {
+  font-size: 0.95rem;
+  color: #6B7280;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .hero-content { flex-direction: column; text-align: center; }
+  .features-section { grid-template-columns: repeat(2, 1fr); margin-top: 2rem; gap: 1rem; }
+  .hero-text { margin-bottom: 3rem; }
+  .tech-news { flex-direction: column; padding: 2rem; text-align: center; }
+  .news-image-wrapper { transform: none; width: 100%; }
+}
+
+@media (max-width: 640px) {
+  .hero-text h1 { font-size: 2.5rem; }
+  .features-section { grid-template-columns: 1fr; }
+  .flash-sale-header { flex-direction: column; gap: 1.5rem; }
+  .hot-sale-title { font-size: 1.8rem; }
+  .brand-item img { height: 40px; }
+  .brand-item { margin: 0 1.5rem; }
+  .brand-title { font-size: 2rem; }
+}

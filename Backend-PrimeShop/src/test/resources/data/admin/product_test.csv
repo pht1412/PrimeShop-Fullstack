@@ -1,0 +1,7 @@
+testCase,sellerId,productId,expectedStatus
+addProductValid,1,,201
+addProductValid,1,,201
+deactiveProduct,,1,200
+deactiveProduct,,999,500
+getActiveProducts,,,200
+getBrands,,,200
