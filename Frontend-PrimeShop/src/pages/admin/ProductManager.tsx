@@ -35,6 +35,7 @@ const ProductManager: React.FC = () => {
     brand: "all"
   });
   const [showAddForm, setShowAddForm] = useState(false);
+  const [isAddingProduct, setIsAddingProduct] = useState(false);
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editProduct, setEditProduct] = useState<Product | null>(null);
@@ -44,6 +45,7 @@ const ProductManager: React.FC = () => {
     name: "",
     price: "",
     discountPercent: "",
+    imageUrl: "",
     images: [""],
     description: "",
     categoryId: "",
@@ -72,22 +74,53 @@ const ProductManager: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsAddingProduct(true);
     try {
-      const response = await api.post("/admin/product/add", newProduct);
-      Swal.fire({
+      await api.post("/admin/product/add", {
+        name: newProduct.name.trim(),
+        price: Number(newProduct.price),
+        discountPercent: newProduct.discountPercent ? Number(newProduct.discountPercent) : null,
+        imageUrl: newProduct.imageUrl.trim() || null,
+        description: newProduct.description.trim(),
+        categoryId: Number(newProduct.categoryId),
+        brand: newProduct.brand.trim(),
+        stock: Number(newProduct.stock),
+        specs: newProduct.specs.filter(spec => spec.name.trim() && spec.value.trim()),
+      });
+      await Swal.fire({
         title: 'Thêm sản phẩm thành công',
         icon: 'success',
         confirmButtonText: 'OK',
         allowOutsideClick: false,
         allowEscapeKey: false,
         allowEnterKey: false,
-      }).then(() => {
-        window.location.reload();
       });
-      console.log("Thêm sản phẩm thành công:", response);     
+      setShowAddForm(false);
+      setNewProduct({
+        name: "",
+        price: "",
+        discountPercent: "",
+        imageUrl: "",
+        images: [""],
+        description: "",
+        categoryId: "",
+        brand: "",
+        stock: "",
+        specs: [{ name: "", value: "" }],
+      });
+      await fetchProducts();
     } catch (error) {
       console.error("Lỗi khi thêm sản phẩm:", error);
-      console.log(JSON.stringify(newProduct, null, 2));
+      const message = error.response?.data?.message
+        || error.response?.data?.error
+        || "Không thể thêm sản phẩm. Vui lòng kiểm tra danh mục và đăng nhập admin.";
+      await Swal.fire({
+        title: 'Không thể thêm sản phẩm',
+        text: message,
+        icon: 'error',
+      });
+    } finally {
+      setIsAddingProduct(false);
     }
   };
 
@@ -582,6 +615,16 @@ const ProductManager: React.FC = () => {
                 min="0"
               />
             </div>
+            <div className="form-group">
+              <label>Ảnh đại diện (URL)</label>
+              <input
+                type="url"
+                name="imageUrl"
+                value={newProduct.imageUrl}
+                onChange={handleChange}
+                placeholder="https://..."
+              />
+            </div>
             {/* <div className="form-group">
               <label>Hình ảnh (Thêm trong phần sửa sau khi thêm sản phẩm)</label>
               {newProduct.images.map((img, index) => (
@@ -614,7 +657,9 @@ const ProductManager: React.FC = () => {
                   name="categoryId"
                   onChange={handleChange}
                   className={styles.filterSelect}
+                  required
                 >
+                  <option value="" disabled>-- Chọn danh mục --</option>
                   {categories.map((cat) => (
                     <option key={cat.id} value={cat.id}>
                       {cat.name}
@@ -646,23 +691,24 @@ const ProductManager: React.FC = () => {
                     value={spec.value}
                     onChange={(e) => handleSpecChange(index, 'value', e.target.value)}
                   />       
-                  <button type="button" onMouseDown={() => removeSpecRow(index)} className="btn btn-danger">
+                  <button type="button" onClick={() => removeSpecRow(index)} className="btn btn-danger">
                     Xóa dòng
                   </button>
                 </div>
               ))}
               <div>
-                <button onMouseDown={addSpecRow} className="btn btn-primary">
+                <button type="button" onClick={addSpecRow} className="btn btn-primary">
                   Thêm dòng
                 </button>
               </div>
             </div>
             
             <div className="flex justify-start">
-              <button type="submit" className="btn btn-primary">
-                Thêm sản phẩm
+              <button type="submit" className="btn btn-primary" disabled={isAddingProduct}>
+                {isAddingProduct ? "Đang thêm..." : "Thêm sản phẩm B2C"}
               </button>
             </div>
+            <p>Hàng B2C sẽ thuộc gian hàng chính thức PrimeShop và được đưa lên bán sau khi lưu.</p>
           </form>
         </div>
       )}

@@ -9,5 +9,6 @@ import com.primeshop.seller.SellerProfile.SellerStatus;
 
 public interface SellerRepo extends JpaRepository<SellerProfile, Long> {
     Optional<SellerProfile> findByUserId(Long userId);
+    Optional<SellerProfile> findFirstByShopName(String shopName);
     List<SellerProfile> findByStatus(SellerStatus status);
 }

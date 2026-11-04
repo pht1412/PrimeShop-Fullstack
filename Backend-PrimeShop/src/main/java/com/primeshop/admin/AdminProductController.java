@@ -21,6 +21,8 @@ import com.primeshop.product.ProductRepo;
 import com.primeshop.product.ProductRequest;
 import com.primeshop.product.ProductResponse;
 import com.primeshop.product.ProductService;
+import com.primeshop.seller.SellerProfile;
+import com.primeshop.seller.SellerService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -28,14 +30,16 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RequiredArgsConstructor
 public class AdminProductController {
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
+    private final SellerService sellerService;
     @Autowired
     private ProductRepo productRepo;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addProduct(@RequestBody ProductRequest request, @RequestParam Long sellerId) {
-        return ResponseEntity.ok(productService.addProduct(request, sellerId));
+    public ResponseEntity<?> addProduct(@RequestBody ProductRequest request) {
+        SellerProfile officialSeller = sellerService.getOrCreateOfficialSellerProfile();
+        return ResponseEntity.status(201)
+            .body(productService.addAdminProduct(request, officialSeller.getId()));
     }
 
     @PatchMapping("/update")

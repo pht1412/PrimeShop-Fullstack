@@ -9,8 +9,9 @@ class WSChatClient {
 
   connect(onConnected: () => void, onMessageReceived: (msg: any) => void) {
     const token = localStorage.getItem("token");
+    const backendUrl = (import.meta.env.DEV ? "" : import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
     this.client = new Client({
-      webSocketFactory: () => new SockJS("https://backend-primeshop.onrender.com/ws"),
+      webSocketFactory: () => new SockJS(`${backendUrl}/ws`),
       connectHeaders: {
         Authorization: `Bearer ${token}`,
       },

@@ -39,12 +39,26 @@ public class ProductService {
 
 
     public ProductResponse addProduct(ProductRequest request, Long sellerId) {
+        return saveProduct(request, sellerId, ProductStatus.PENDING);
+    }
+
+    @Transactional
+    public ProductResponse addAdminProduct(ProductRequest request, Long sellerId) {
+        return saveProduct(request, sellerId, ProductStatus.APPROVED);
+    }
+
+    private ProductResponse saveProduct(
+            ProductRequest request,
+            Long sellerId,
+            ProductStatus status
+    ) {
         Category category = categoryRepo.findById(request.getCategoryId())
             .orElseThrow(() -> new RuntimeException("Không tìm thấy danh mục!"));
         SellerProfile seller = sellerRepo.findById(sellerId)
             .orElseThrow(() -> new RuntimeException("Không tìm thấy người bán!"));
         Product product = new Product(request, category);
         product.setSeller(seller);
+        product.setStatus(status);
         String baseSlug = SlugUtils.toSlug(product.getName());
         String slug = baseSlug;
         int counter = 1;
@@ -54,10 +68,14 @@ public class ProductService {
         }
         product.setSlug(slug);
         Product saved = productRepo.save(product);
-        List<ProductSpec> specs = request.getSpecs().stream()
+        List<ProductSpec> specs = request.getSpecs() == null ? List.of() : request.getSpecs().stream()
+            .filter(spec -> spec.getName() != null && !spec.getName().isBlank()
+                && spec.getValue() != null && !spec.getValue().isBlank())
             .map(spec -> new ProductSpec(null, spec.getName(), spec.getValue(), product))
             .collect(Collectors.toList());
-        productSpecRepo.saveAll(specs);
+        if (!specs.isEmpty()) {
+            productSpecRepo.saveAll(specs);
+        }
 
         Product finalProduct = productRepo.findById(saved.getId())
             .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm!"));

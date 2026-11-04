@@ -62,12 +62,12 @@ const VoucherList: React.FC<VoucherListProps> = ({
             if (showAllVouchers) {
                 // Lấy tất cả voucher đang hoạt động
                 response = await axios.get<Voucher[]>(
-                    'https://localhost:8080/api/vouchers'
+                    '/api/vouchers'
                 );
             } else {
                 // Lấy voucher cho đơn hàng cụ thể (nếu cần)
                 response = await axios.get<Voucher[]>(
-                    'https://localhost:8080/api/vouchers/valid-for-order?orderValue=0'
+                    '/api/vouchers/valid-for-order?orderValue=0'
                 );
             }
             setVouchers(response.data);

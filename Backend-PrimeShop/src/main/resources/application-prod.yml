@@ -20,6 +20,8 @@ spring:
 
 server:
   port: ${PORT:8080}
+  ssl:
+    enabled: false
   servlet:
     encoding:
       charset: UTF-8

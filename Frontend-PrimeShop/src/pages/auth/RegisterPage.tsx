@@ -55,7 +55,13 @@ const RegisterPage = () => {
       });
       navigate("/login");
     } catch (err: any) {
-      setError(err.response?.data?.message || "Đăng ký thất bại!");
+      setError(
+        err.response?.data?.error
+          || err.response?.data?.message
+          || (err.response
+            ? "Đăng ký thất bại!"
+            : "Không kết nối được máy chủ. Vui lòng thử lại sau.")
+      );
     } finally {
       setLoading(false);
     }

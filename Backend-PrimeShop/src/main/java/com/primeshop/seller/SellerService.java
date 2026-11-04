@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import com.primeshop.product.Product;
 import com.primeshop.product.ProductRepo;
@@ -18,6 +19,8 @@ import com.primeshop.user.UserRepo;
 
 @Service
 public class SellerService {
+    private static final String OFFICIAL_SHOP_NAME = "PrimeShop Official";
+
     @Autowired
     private final UserRepo userRepo;
     @Autowired
@@ -60,6 +63,30 @@ public class SellerService {
         user.getRoles().add(sellerRole);
         userRepo.save(user);
         return new SellerResponse(sellerProfile);
+    }
+
+    @Transactional
+    public SellerProfile getOrCreateOfficialSellerProfile() {
+        return sellerRepo.findFirstByShopName(OFFICIAL_SHOP_NAME)
+            .orElseGet(() -> {
+                String username = SecurityContextHolder.getContext().getAuthentication().getName();
+                User admin = userRepo.findByUsername(username)
+                    .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy tài khoản admin."));
+
+                if (sellerRepo.findByUserId(admin.getId()).isPresent()) {
+                    throw new IllegalArgumentException(
+                        "Tài khoản admin đã liên kết với một hồ sơ seller khác. "
+                            + "Hãy dùng tài khoản admin riêng cho shop PrimeShop Official."
+                    );
+                }
+
+                SellerProfile officialSeller = new SellerProfile();
+                officialSeller.setUser(admin);
+                officialSeller.setShopName(OFFICIAL_SHOP_NAME);
+                officialSeller.setDescription("Gian hàng chính thức PrimeShop (B2C).");
+                officialSeller.setStatus(SellerStatus.VERIFIED_SELLER);
+                return sellerRepo.save(officialSeller);
+            });
     }
 
     public SellerProfile approveSeller(Long sellerId) {

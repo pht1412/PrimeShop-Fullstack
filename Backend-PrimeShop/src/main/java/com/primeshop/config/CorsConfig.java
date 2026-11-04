@@ -13,12 +13,9 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        // THAY ĐỔI QUAN TRỌNG Ở ĐÂY:
-                        // Dùng allowedOriginPatterns thay vì allowedOrigins 
-                        // để chúng ta có thể dùng ký tự đại diện (*)
                         .allowedOriginPatterns(
-                            "http://localhost:5173",      // Cho phép Dev Local
-                            "https://*.vercel.app"        // [PRO TIP]: Cho phép tất cả các domain đuôi .vercel.app
+                            "http://localhost:[*]",
+                            "http://127.0.0.1:[*]"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
                         .allowedHeaders("*")

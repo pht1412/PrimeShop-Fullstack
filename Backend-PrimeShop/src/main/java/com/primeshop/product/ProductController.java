@@ -35,7 +35,7 @@ public class ProductController {
 
     @GetMapping("/test")
     public String hello() {
-        return "Hello from Render!";
+        return "Hello from PrimeShop!";
     }
 
     @GetMapping("/test-product")
