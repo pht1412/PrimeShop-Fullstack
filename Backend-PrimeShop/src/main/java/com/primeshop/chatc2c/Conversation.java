@@ -21,8 +21,9 @@ public class Conversation {
 
     private LocalDateTime createdAt;
 
-    @Column(nullable = false, columnDefinition = "NVARCHAR(MAX) DEFAULT ''")
-    private String lastMessage;
+    @Column(nullable = false, columnDefinition = "text default ''")
+    @Builder.Default
+    private String lastMessage = "";
 
     private LocalDateTime lastMessageAt;
 

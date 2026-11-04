@@ -19,12 +19,12 @@ public class SellerProfile {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(columnDefinition = "NVARCHAR(255)", nullable = false)
+    @Column(nullable = false, length = 255)
     private String shopName;
 
     private String identityCard;
 
-    @Column(columnDefinition = "NVARCHAR(1000)")
+    @Column(length = 1000)
     private String description;
 
     private String phone;
@@ -36,5 +36,4 @@ public class SellerProfile {
         PENDING_REVIEW, VERIFIED_SELLER, BANNED_SELLER
     }
 }
-
 
