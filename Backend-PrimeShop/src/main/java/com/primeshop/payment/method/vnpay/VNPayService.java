@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import org.springframework.stereotype.Service;
 
-import com.primeshop.order.OrderRepo;
+import com.primeshop.order.OrderService;
 import com.primeshop.order.OrderStatus;
 import com.primeshop.payment.transaction.PaymentTransaction;
 import com.primeshop.payment.transaction.PaymentTransactionRepo;
@@ -27,7 +27,7 @@ public class VNPayService {
     private final VNPayUtil vnPayUtil;
     private final PaymentTransactionRepo paymentTransactionRepo;
     // Đã loại bỏ Environment env vì không cần thiết nữa
-    private final OrderRepo orderRepo;
+    private final OrderService orderService;
     private final SecurityUtils securityUtils;
 
     public String createPaymentUrl(PaymentRequest request) throws UnsupportedEncodingException {
@@ -131,10 +131,6 @@ public class VNPayService {
                 tx.setStatus("FAILED");
                 tx.setResponseCode("INVALID_HASH");
                 paymentTransactionRepo.save(tx);
-                orderRepo.findById(Long.parseLong(orderId)).ifPresent(order -> {
-                    order.setStatus(OrderStatus.PAYMENT_FAILED);
-                    orderRepo.save(order);
-                });
             }
             return PaymentCallbackResult.invalid("Chữ ký không hợp lệ");
         }
@@ -152,10 +148,7 @@ public class VNPayService {
                 tx.setResponseCode("00");
                 paymentTransactionRepo.save(tx);
             }
-            orderRepo.findById(Long.parseLong(orderId)).ifPresent(order -> {
-                order.setStatus(OrderStatus.PAID);
-                orderRepo.save(order);
-            });
+            orderService.updateOrderStatus(Long.parseLong(orderId), OrderStatus.PAID);
             return PaymentCallbackResult.success("Thanh toán thành công");
         } else {
             // Xử lý lỗi từ ngân hàng
@@ -164,10 +157,7 @@ public class VNPayService {
                 tx.setResponseCode(responseCode);
                 paymentTransactionRepo.save(tx);
             }
-             orderRepo.findById(Long.parseLong(orderId)).ifPresent(order -> {
-                order.setStatus(OrderStatus.PAYMENT_FAILED);
-                orderRepo.save(order);
-            });
+            orderService.updateOrderStatus(Long.parseLong(orderId), OrderStatus.PAYMENT_FAILED);
             return PaymentCallbackResult.failed("Thanh toán thất bại");
         }
     }

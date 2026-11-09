@@ -20,6 +20,7 @@ import com.primeshop.installment.InstallmentAgreement;
 import com.primeshop.installment.InstallmentAgreementRepo;
 import com.primeshop.order.Order;
 import com.primeshop.order.OrderRepo;
+import com.primeshop.order.OrderService;
 import com.primeshop.order.OrderStatus;
 import com.primeshop.payment.transaction.PaymentTransaction;
 import com.primeshop.payment.transaction.PaymentTransactionRepo;
@@ -39,6 +40,7 @@ public class VNPayInstallmentService {
     private final PaymentTransactionRepo paymentTransactionRepo;
     private final InstallmentAgreementRepo installmentAgreementRepo;
     private final OrderRepo orderRepo;
+    private final OrderService orderService;
     private final Environment env;
     
     /**
@@ -275,8 +277,7 @@ public class VNPayInstallmentService {
         // Cập nhật trạng thái đơn hàng
         Order order = orderRepo.findById(Long.parseLong(transaction.getOrderId())).orElse(null);
         if (order != null) {
-            order.setStatus(OrderStatus.PAID);
-            orderRepo.save(order);
+            orderService.updateOrderStatus(order.getId(), OrderStatus.PAID);
         }
         
         // Cập nhật trạng thái InstallmentAgreement
@@ -301,8 +302,7 @@ public class VNPayInstallmentService {
         // Cập nhật trạng thái đơn hàng
         Order order = orderRepo.findById(Long.parseLong(transaction.getOrderId())).orElse(null);
         if (order != null) {
-            order.setStatus(OrderStatus.PAYMENT_FAILED);
-            orderRepo.save(order);
+            orderService.updateOrderStatus(order.getId(), OrderStatus.PAYMENT_FAILED);
         }
         
         // Cập nhật trạng thái InstallmentAgreement

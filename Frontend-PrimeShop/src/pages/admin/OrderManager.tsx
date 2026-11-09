@@ -19,6 +19,15 @@ import {
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
 
+const escapeHtml = (value: string | number | null | undefined): string =>
+  String(value ?? "").replace(/[&<>"']/g, character => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[character] ?? character);
+
 const OrderManager = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState<Order[]>([]);
@@ -67,17 +76,17 @@ const OrderManager = () => {
         <div style="text-align:left;font-size:0.95rem;line-height:1.6;">
 
             <div style="background:#f5f5f5;padding:10px;border-radius:8px;margin-bottom:10px;">
-                <p><strong>Khách hàng:</strong> ${order.fullName}</p>
-                <p><strong>SĐT:</strong> ${order.phoneNumber}</p>
-                <p><strong>Địa chỉ:</strong> ${order.address}</p>
+                <p><strong>Khách hàng:</strong> ${escapeHtml(order.fullName)}</p>
+                <p><strong>SĐT:</strong> ${escapeHtml(order.phoneNumber)}</p>
+                <p><strong>Địa chỉ:</strong> ${escapeHtml(order.address)}</p>
                 <p><strong>Ngày đặt:</strong> ${new Date(order.createdAt).toLocaleString("vi-VN")}</p>
             </div>
 
             <p><strong>Sản phẩm:</strong></p>
             <ul style="padding-left:20px;margin-bottom:15px;">
-              ${order.items?.map(item => 
-                `<li>${item.productName} 
-                    <span style="color:#666;font-size:0.9em">(x${item.quantity})</span>
+              ${order.orderItems?.map(item =>
+                `<li>${escapeHtml(item.productName)}
+                    <span style="color:#666;font-size:0.9em">(x${escapeHtml(item.quantity)})</span>
                  </li>`
               ).join("") || "<li>Không có dữ liệu</li>"}
             </ul>
@@ -108,23 +117,20 @@ const OrderManager = () => {
   // ============================
   // UPDATE STATUS
   // ============================
-  const handleApprove = async (orderId: string) => {
+  const handleSetStatus = async (orderId: string, status: string, successMessage: string) => {
     try {
-      await api.put(`/admin/order/update-status?id=${orderId}&status=CONFIRMED`);
-      Swal.fire("Thành công", "Đã duyệt đơn hàng", "success");
+      await api.put(`/admin/order/update-status?id=${orderId}&status=${status}`);
+      Swal.fire("Thành công", successMessage, "success");
       fetchOrders();
     } catch (error) {
-      Swal.fire("Lỗi", "Không thể duyệt đơn hàng", "error");
-    }
-  };
-
-  const handleDelivery = async (orderId: string) => {
-    try {
-      await api.put(`/admin/order/update-status?id=${orderId}&status=PROCESSING`);
-      Swal.fire("Thành công", "Đã chuyển vận chuyển", "success");
-      fetchOrders();
-    } catch (error) {
-      Swal.fire("Lỗi", "Không thể cập nhật đơn hàng", "error");
+      const responseError = error as {
+        response?: { data?: { message?: string } };
+      };
+      Swal.fire(
+        "Lỗi",
+        responseError.response?.data?.message ?? "Không thể cập nhật đơn hàng",
+        "error"
+      );
     }
   };
 
@@ -152,7 +158,15 @@ const OrderManager = () => {
           <MenuItem value="CONFIRMED">Đã xác nhận</MenuItem>
           <MenuItem value="PAID">Đã thanh toán</MenuItem>
           <MenuItem value="PROCESSING">Đang xử lý</MenuItem>
+          <MenuItem value="INVENTORY">Đang kiểm kho</MenuItem>
+          <MenuItem value="READY_TO_SHIP">Sẵn sàng bàn giao</MenuItem>
+          <MenuItem value="SHIPPED">Đang vận chuyển</MenuItem>
           <MenuItem value="DELIVERED">Hoàn thành</MenuItem>
+          <MenuItem value="FAILED_DELIVERY">Giao thất bại</MenuItem>
+          <MenuItem value="PAYMENT_FAILED">Thanh toán thất bại</MenuItem>
+          <MenuItem value="RETURNED">Đã hoàn trả</MenuItem>
+          <MenuItem value="REFUNDED">Đã hoàn tiền</MenuItem>
+          <MenuItem value="COMPLETED">Đã hoàn tất</MenuItem>
           <MenuItem value="CANCELLED">Đã hủy</MenuItem>
         </Select>
 
@@ -246,6 +260,11 @@ const OrderManager = () => {
                         fontWeight: 500
                       }}>
                         {order.orderStatus}
+                        {order.paymentStatus && (
+                          <small style={{ display: "block", fontWeight: 400 }}>
+                            Thanh toán: {order.paymentStatus}
+                          </small>
+                        )}
                       </span>
                     </TableCell>
 
@@ -260,14 +279,74 @@ const OrderManager = () => {
                         </Button>
 
                         {order.orderStatus === "PENDING" && (
-                          <Button variant="contained" size="small" onClick={() => handleApprove(order.orderId)}>
-                            Duyệt
+                          <Button
+                            variant="contained"
+                            size="small"
+                            onClick={() => handleSetStatus(order.orderId, "CONFIRMED", "Đã xác nhận đơn hàng")}
+                          >
+                            Xác nhận
                           </Button>
                         )}
 
                         {order.orderStatus === "PAID" && (
-                          <Button variant="contained" color="secondary" size="small" onClick={() => handleDelivery(order.orderId)}>
-                            Giao hàng
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            size="small"
+                            onClick={() => handleSetStatus(order.orderId, "PROCESSING", "Đã bắt đầu xử lý đơn")}
+                          >
+                            Bắt đầu xử lý
+                          </Button>
+                        )}
+
+                        {order.orderStatus === "CONFIRMED" && order.paymentType === "CASH" && (
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            size="small"
+                            onClick={() => handleSetStatus(order.orderId, "PROCESSING", "Đã bắt đầu xử lý đơn COD")}
+                          >
+                            Bắt đầu xử lý COD
+                          </Button>
+                        )}
+
+                        {order.orderStatus === "PROCESSING" && (
+                          <Button
+                            variant="contained"
+                            size="small"
+                            onClick={() => handleSetStatus(order.orderId, "INVENTORY", "Đơn hàng đang được kiểm kho")}
+                          >
+                            Kiểm kho
+                          </Button>
+                        )}
+
+                        {order.orderStatus === "INVENTORY" && (
+                          <Button
+                            variant="contained"
+                            size="small"
+                            onClick={() => handleSetStatus(order.orderId, "READY_TO_SHIP", "Đơn hàng sẵn sàng bàn giao")}
+                          >
+                            Sẵn sàng bàn giao
+                          </Button>
+                        )}
+
+                        {order.orderStatus === "RETURNED" && (
+                          <Button
+                            variant="contained"
+                            size="small"
+                            onClick={() => handleSetStatus(order.orderId, "REFUNDED", "Đã hoàn tiền đơn hàng")}
+                          >
+                            Hoàn tiền
+                          </Button>
+                        )}
+
+                        {order.orderStatus === "CANCELLED" && order.paymentStatus === "PAID" && (
+                          <Button
+                            variant="contained"
+                            size="small"
+                            onClick={() => handleSetStatus(order.orderId, "REFUNDED", "Đã hoàn tiền đơn hàng")}
+                          >
+                            Hoàn tiền
                           </Button>
                         )}
                       </div>

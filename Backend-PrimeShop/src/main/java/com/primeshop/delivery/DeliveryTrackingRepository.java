@@ -7,5 +7,5 @@ import com.primeshop.delivery.DeliveryTracking;
 import java.util.List;
 
 public interface DeliveryTrackingRepository extends JpaRepository<DeliveryTracking, Long> {
-    List<DeliveryTracking> findByOrderId(Long orderId);
+    List<DeliveryTracking> findByOrderIdOrderByTimestampAsc(Long orderId);
 } 

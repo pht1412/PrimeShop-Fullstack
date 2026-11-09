@@ -25,4 +25,7 @@ public class DeliveryTracking {
     private LocalDateTime timestamp;
 
     private String location;
-} 
+
+    @Column(length = 1000)
+    private String note;
+}

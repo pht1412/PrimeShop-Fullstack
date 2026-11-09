@@ -19,8 +19,11 @@ public class OrderResponse {
     private BigDecimal finalAmount; // <--- THÊM DÒNG NÀY (Thực thu)
     private BigDecimal discountAmount; // <--- THÊM DÒNG NÀY (Tiền giảm giá - Optional nhưng nên có)
     private OrderStatus orderStatus;
+    private Order.PaymentType paymentType;
+    private PaymentStatus paymentStatus;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private LocalDateTime estimatedDeliveryDate;
     private String fullName;
     private String phoneNumber;
     private String address;
@@ -29,6 +32,8 @@ public class OrderResponse {
     private Long sellerId;
     private String shopName;
     private List<OrderItemResponse> orderItems;
+    private List<OrderStatus> allowedNextStatuses;
+    private List<OrderStatus> allowedDeliveryStatuses;
 
     public OrderResponse(Order order) {
         this.orderId = order.getId();
@@ -37,8 +42,28 @@ public class OrderResponse {
         this.finalAmount = order.getFinalAmount(); 
         this.discountAmount = order.getDiscountAmount();
         this.orderStatus = order.getStatus();
+        this.paymentType = order.getEffectivePaymentType();
+        this.paymentStatus = order.getEffectivePaymentStatus();
+        List<OrderStatus> allowedStatuses = order.getStatus() == null
+                ? List.of()
+                : new java.util.ArrayList<>(order.getStatus().getAllowedTransitions());
+        if (order.getStatus() == OrderStatus.CONFIRMED
+                && order.getEffectivePaymentType() == Order.PaymentType.CASH) {
+            allowedStatuses.add(OrderStatus.PROCESSING);
+        }
+        if (order.getStatus() == OrderStatus.CANCELLED
+                && order.getEffectivePaymentStatus() == PaymentStatus.PAID) {
+            allowedStatuses.add(OrderStatus.REFUNDED);
+        }
+        this.allowedNextStatuses = List.copyOf(allowedStatuses);
+        this.allowedDeliveryStatuses = order.getStatus() == null
+                ? List.of()
+                : order.getStatus().getAllowedTransitions().stream()
+                        .filter(order.getStatus()::canBeChangedByDeliveryUnitTo)
+                        .toList();
         this.createdAt = order.getCreatedAt();
         this.updatedAt = order.getUpdatedAt();
+        this.estimatedDeliveryDate = order.getEstimatedDeliveryDate();
         this.orderItems = order.getOrderItems().stream()
                 .map(OrderItemResponse::new)
                 .collect(Collectors.toList());

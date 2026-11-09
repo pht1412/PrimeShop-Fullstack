@@ -7,6 +7,8 @@ import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import com.primeshop.product.Product;
 import com.primeshop.product.ProductRepo;
 import com.primeshop.user.User;
@@ -37,6 +39,13 @@ public class CartService {
         });
 
         Product product = productRepo.findBySlugAndActiveTrue(request.getProductSlug()).orElseThrow(() -> new RuntimeException("Product not found!"));
+        if (product.getStatus() != Product.ProductStatus.APPROVED) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sản phẩm hiện không thể thêm vào giỏ hàng.");
+        }
+        if (!com.primeshop.seller.SellerProfile.OFFICIAL_SHOP_NAME.equals(product.getSeller().getShopName())
+                && product.getSeller().getUser().getId().equals(user.getId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bạn không thể mua sản phẩm do chính mình đăng.");
+        }
 
         Optional<CartItem> cartItem = cartItemRepo.findByCartAndProduct(cart, product);
         if (cartItem.isPresent()) {           
@@ -140,5 +149,4 @@ public class CartService {
         cartRepo.save(cart);
     }
 }
-
 

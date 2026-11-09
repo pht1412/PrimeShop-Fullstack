@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogActions,
   Button,
+  Checkbox,
   TextField,
   FormControl,
   InputLabel,
@@ -14,6 +15,7 @@ import {
   Typography,
   Alert,
   CircularProgress,
+  FormControlLabel,
 } from '@mui/material';
 import api from '../../api/api';
 import './delivery.css';
@@ -22,7 +24,8 @@ interface Order {
   orderId: string;
   fullName: string;
   orderStatus: string;
-  // Các trường khác ...
+  paymentType?: string;
+  allowedDeliveryStatuses?: string[];
 }
 
 interface UpdateStatusModalProps {
@@ -32,11 +35,13 @@ interface UpdateStatusModalProps {
   onSuccess: () => void;
 }
 
-// Mảng trạng thái tương ứng nghiệp vụ
-const STATUS_REQUIRING_LOCATION = ['INVENTORY'];
-const STATUS_REQUIRING_NOTE = ['READY_TO_SHIP', 'PROCESSING', 'SHIPPING'];
-const STATUS_REQUIRING_REASON = ['DELIVERED_FAILED', 'RETURNED', 'REFUNDED'];
-const STATUS_NO_INPUT = ['DELIVERED'];
+const STATUS_LABELS: Record<string, string> = {
+  READY_TO_SHIP: 'Sẵn sàng bàn giao',
+  SHIPPED: 'Đã bàn giao cho đơn vị vận chuyển',
+  DELIVERED: 'Giao thành công',
+  FAILED_DELIVERY: 'Giao thất bại',
+  RETURNED: 'Hoàn trả',
+};
 
 const UpdateStatusModal: React.FC<UpdateStatusModalProps> = ({
   order,
@@ -44,33 +49,30 @@ const UpdateStatusModal: React.FC<UpdateStatusModalProps> = ({
   onClose,
   onSuccess,
 }) => {
-  const [status, setStatus] = useState(order?.orderStatus || '');
+  const [status, setStatus] = useState('');
   const [location, setLocation] = useState('');
   const [note, setNote] = useState('');
-  const [reason, setReason] = useState('');
+  const [paymentCollected, setPaymentCollected] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (order && open) {
-      setStatus(order.orderStatus || '');
+      setStatus('');
       setLocation('');
       setNote('');
-      setReason('');
+      setPaymentCollected(false);
       setError(null);
     }
   }, [order, open]);
 
-  const requiresLocation = STATUS_REQUIRING_LOCATION.includes(status);
-  const requiresNote = STATUS_REQUIRING_NOTE.includes(status);
-  const requiresReason = STATUS_REQUIRING_REASON.includes(status);
-  const noInput = STATUS_NO_INPUT.includes(status);
+  const requiresNote = status === 'FAILED_DELIVERY' || status === 'RETURNED';
+  const allowedNextStatuses = order?.allowedDeliveryStatuses ?? [];
 
   const validate = () => {
-    if (!status) return false;
-    if (requiresLocation && location.trim() === '') return false;
+    if (!allowedNextStatuses.includes(status)) return false;
     if (requiresNote && note.trim() === '') return false;
-    if (requiresReason && reason.trim() === '') return false;
+    if (status === 'DELIVERED' && order?.paymentType === 'CASH' && !paymentCollected) return false;
     return true;
   };
 
@@ -84,10 +86,12 @@ const UpdateStatusModal: React.FC<UpdateStatusModalProps> = ({
       return;
     }
 
-    const payload: any = { status };
-    if (requiresLocation) payload.location = location.trim();
-    if (requiresNote) payload.note = note.trim();
-    if (requiresReason) payload.reason = reason.trim();
+    const payload = {
+      status,
+      location: location.trim() || undefined,
+      note: note.trim() || undefined,
+      paymentCollected,
+    };
 
     try {
       setLoading(true);
@@ -101,10 +105,17 @@ const UpdateStatusModal: React.FC<UpdateStatusModalProps> = ({
       setStatus('');
       setLocation('');
       setNote('');
-      setReason('');
+      setPaymentCollected(false);
     } catch (err) {
       console.error('Lỗi cập nhật trạng thái:', err);
-      setError('Không thể cập nhật trạng thái đơn hàng');
+      const responseError = err as {
+        response?: { data?: { error?: string; message?: string } };
+      };
+      setError(
+        responseError.response?.data?.error
+          ?? responseError.response?.data?.message
+          ?? 'Không thể cập nhật trạng thái đơn hàng'
+      );
     } finally {
       setLoading(false);
     }
@@ -116,31 +127,25 @@ const UpdateStatusModal: React.FC<UpdateStatusModalProps> = ({
       setStatus('');
       setLocation('');
       setNote('');
-      setReason('');
+      setPaymentCollected(false);
       setError(null);
     }
   };
 
   const getStatusLabel = (status: string) => {
     switch (status) {
-      case 'INVENTORY':
-        return 'Trong kho kiểm kê';
       case 'READY_TO_SHIP':
-        return 'Chờ giao';
-      case 'PROCESSING':
-        return 'Đang xử lý';
-      case 'SHIPPING':
-        return 'Đang giao';
+        return 'Sẵn sàng bàn giao';
+      case 'SHIPPED':
+        return 'Đã bàn giao cho đơn vị vận chuyển';
       case 'DELIVERED':
-        return 'Đã giao';
-      case 'DELIVERED_FAILED':
+        return 'Giao thành công';
+      case 'FAILED_DELIVERY':
         return 'Giao thất bại';
       case 'RETURNED':
-        return 'Đã trả hàng';
-      case 'REFUNDED':
-        return 'Đã hoàn tiền';
+        return 'Hoàn trả';
       default:
-        return status;
+        return STATUS_LABELS[status] ?? status;
     }
   };
 
@@ -173,31 +178,26 @@ const UpdateStatusModal: React.FC<UpdateStatusModalProps> = ({
               // Reset các input phụ thuộc trạng thái
               setLocation('');
               setNote('');
-              setReason('');
+              setPaymentCollected(false);
               setError(null);
             }}
           >
-            <MenuItem value="INVENTORY">{getStatusLabel('INVENTORY')}</MenuItem>
-            <MenuItem value="READY_TO_SHIP">{getStatusLabel('READY_TO_SHIP')}</MenuItem>
-            <MenuItem value="PROCESSING">{getStatusLabel('PROCESSING')}</MenuItem>
-            <MenuItem value="SHIPPING">{getStatusLabel('SHIPPING')}</MenuItem>
-            <MenuItem value="DELIVERED">{getStatusLabel('DELIVERED')}</MenuItem>
-            <MenuItem value="DELIVERED_FAILED">{getStatusLabel('DELIVERED_FAILED')}</MenuItem>
-            <MenuItem value="RETURNED">{getStatusLabel('RETURNED')}</MenuItem>
-            <MenuItem value="REFUNDED">{getStatusLabel('REFUNDED')}</MenuItem>
+            <MenuItem value="" disabled>Chọn trạng thái tiếp theo</MenuItem>
+            {allowedNextStatuses.map(nextStatus => (
+              <MenuItem key={nextStatus} value={nextStatus}>
+                {getStatusLabel(nextStatus)}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
 
-        {requiresLocation && (
+        {(status === 'SHIPPED' || status === 'DELIVERED') && (
           <TextField
             fullWidth
-            label="Vị trí kho"
-            placeholder="Nhập vị trí kho (ví dụ: Kho Hà Nội - Kệ A3)"
+            label="Vị trí cập nhật"
+            placeholder="Nhập vị trí hiện tại (không bắt buộc)"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            multiline
-            rows={2}
-            required
             sx={{ mb: 2 }}
           />
         )}
@@ -205,8 +205,8 @@ const UpdateStatusModal: React.FC<UpdateStatusModalProps> = ({
         {requiresNote && (
           <TextField
             fullWidth
-            label="Ghi chú"
-            placeholder="Nhập ghi chú (ví dụ: Tài xế sẽ đến lấy trong 1-3 ngày)"
+            label="Lý do"
+            placeholder="Nhập lý do giao thất bại hoặc hoàn hàng"
             value={note}
             onChange={(e) => setNote(e.target.value)}
             multiline
@@ -216,24 +216,22 @@ const UpdateStatusModal: React.FC<UpdateStatusModalProps> = ({
           />
         )}
 
-        {noInput && (
-          <Typography variant="body1" color="textSecondary" sx={{ mb: 2 }}>
-            Hoàn thành đơn hàng, vui lòng đợi khách xác nhận đã nhận.
-          </Typography>
+        {status === 'DELIVERED' && order?.paymentType === 'CASH' && (
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={paymentCollected}
+                onChange={(event) => setPaymentCollected(event.target.checked)}
+              />
+            }
+            label="Đã thu tiền COD từ khách hàng"
+          />
         )}
 
-        {requiresReason && (
-          <TextField
-            fullWidth
-            label="Lý do"
-            placeholder="Nhập lý do (ví dụ: Khách từ chối nhận hàng)"
-            value={reason}
-            onChange={(e) => setReason(e.target.value)}
-            multiline
-            rows={3}
-            required
-            sx={{ mb: 2 }}
-          />
+        {allowedNextStatuses.length === 0 && (
+          <Typography variant="body1" color="textSecondary" sx={{ mb: 2 }}>
+            Đơn hàng này hiện không có bước vận chuyển tiếp theo.
+          </Typography>
         )}
       </DialogContent>
 

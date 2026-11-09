@@ -26,6 +26,10 @@ public interface ProductRepo extends JpaRepository<Product, Long>, JpaSpecificat
     List<Product> findAll();
 
     List<Product> findByActiveTrue();
+    List<Product> findByStatusAndActiveTrueAndSeller_ShopNameNotOrderByCreatedAtDesc(
+        ProductStatus status,
+        String shopName
+    );
     List<Product> findByActiveFalse();
 
     // @Query("SELECT p FROM Product p ORDER BY p.sold DESC AND p.active = true")

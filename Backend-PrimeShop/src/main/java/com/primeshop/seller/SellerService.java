@@ -19,8 +19,6 @@ import com.primeshop.user.UserRepo;
 
 @Service
 public class SellerService {
-    private static final String OFFICIAL_SHOP_NAME = "PrimeShop Official";
-
     @Autowired
     private final UserRepo userRepo;
     @Autowired
@@ -67,7 +65,7 @@ public class SellerService {
 
     @Transactional
     public SellerProfile getOrCreateOfficialSellerProfile() {
-        return sellerRepo.findFirstByShopName(OFFICIAL_SHOP_NAME)
+        return sellerRepo.findFirstByShopName(SellerProfile.OFFICIAL_SHOP_NAME)
             .orElseGet(() -> {
                 String username = SecurityContextHolder.getContext().getAuthentication().getName();
                 User admin = userRepo.findByUsername(username)
@@ -82,7 +80,7 @@ public class SellerService {
 
                 SellerProfile officialSeller = new SellerProfile();
                 officialSeller.setUser(admin);
-                officialSeller.setShopName(OFFICIAL_SHOP_NAME);
+                officialSeller.setShopName(SellerProfile.OFFICIAL_SHOP_NAME);
                 officialSeller.setDescription("Gian hàng chính thức PrimeShop (B2C).");
                 officialSeller.setStatus(SellerStatus.VERIFIED_SELLER);
                 return sellerRepo.save(officialSeller);

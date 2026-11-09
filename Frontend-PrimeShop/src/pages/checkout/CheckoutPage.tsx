@@ -379,13 +379,16 @@ const CheckoutPage = () => {
       
       Swal.fire({
         title: "Đặt hàng thành công!",
-        text: "Trong vòng 24 giờ tới đơn hàng của bạn sẽ được xử lý. Vui lòng thanh toán trong 48 giờ tiếp theo kể từ lúc được xử lý hoặc đơn hàng của bạn sẽ bị hủy.",
+        text: "Đơn hàng sẽ được xác nhận và xử lý. Nếu bạn chọn thanh toán khi nhận hàng (COD), hãy thanh toán cho đơn vị vận chuyển khi nhận đơn.",
         icon: "success"
       });
       navigate("/account");
     } catch (error) {
-      console.error("❌ Order creation failed:", error);
-      setMessage("Có lỗi xảy ra khi đặt hàng!");
+      const axiosError = error as {
+        response?: { status?: number; data?: { message?: string } };
+      };
+      console.error("Order creation failed with status:", axiosError.response?.status);
+      setMessage(axiosError.response?.data?.message || "Có lỗi xảy ra khi đặt hàng!");
     } finally {
       setLoading(false);
     }
@@ -595,7 +598,7 @@ const CheckoutPage = () => {
                 disabled={loading}
               ></textarea>
             </div>
-            {/* <div className="input-group">
+            <div className="input-group">
               <label htmlFor="paymentMethod">Phương thức thanh toán</label>
               <select
                 id="paymentMethod"
@@ -605,10 +608,9 @@ const CheckoutPage = () => {
                 disabled={loading}
               >
                 <option value="cod">Thanh toán khi nhận hàng (COD)</option>
-                <option value="bank">Chuyển khoản ngân hàng</option>
-                <option value="wallet">Ví điện tử</option>
+                <option value="bank">Thanh toán trực tuyến</option>
               </select>
-            </div> */}
+            </div>
             <button type="submit" className="auth-btn" disabled={loading}>
               {loading ? "Đang xử lý..." : "Xác nhận đơn hàng"}
             </button>

@@ -48,6 +48,11 @@ public class OrderController {
     public ResponseEntity<?> countOrder() {
         return ResponseEntity.ok(orderService.countOrder());
     }
+
+    @PutMapping("/{orderId}/confirm-received")
+    public ResponseEntity<OrderResponse> confirmOrderReceived(@PathVariable Long orderId) {
+        return ResponseEntity.ok(orderService.confirmOrderReceived(orderId));
+    }
     
     /**
      * Tạo thanh toán trả góp VNPay cho đơn hàng

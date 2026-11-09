@@ -16,8 +16,13 @@ public class OrderItemResponse {
     private String imageUrl;
 
     public OrderItemResponse(OrderItem orderItem) {
-        this.productId = orderItem.getProduct().getId();
-        this.productName = orderItem.getProduct().getName();
+        if (orderItem.getProduct() != null) {
+            this.productId = orderItem.getProduct().getId();
+        }
+        this.productName = orderItem.getProductName();
+        if ((this.productName == null || this.productName.isBlank()) && orderItem.getProduct() != null) {
+            this.productName = orderItem.getProduct().getName();
+        }
         this.quantity = orderItem.getQuantity();
         this.totalPrice = orderItem.getTotalPrice();
         

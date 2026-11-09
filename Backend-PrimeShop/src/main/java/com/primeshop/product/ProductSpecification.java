@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 import com.primeshop.product.Product.ProductStatus;
+import com.primeshop.seller.SellerProfile;
 import jakarta.persistence.criteria.Predicate;
 
 public class ProductSpecification {
@@ -20,9 +21,12 @@ public class ProductSpecification {
                 );
 
             } else {
-                // ✅ Public View
                 predicates.add(cb.equal(root.get("status"), ProductStatus.APPROVED));
                 predicates.add(cb.isTrue(root.get("active")));
+                predicates.add(cb.equal(
+                    root.get("seller").get("shopName"),
+                    SellerProfile.OFFICIAL_SHOP_NAME
+                ));
             }
 
             // ✅ Search chứa từ khóa - Case insensitive
@@ -71,4 +75,3 @@ public class ProductSpecification {
         };
     }
 }
-

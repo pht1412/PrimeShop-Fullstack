@@ -1,27 +1,26 @@
 // Vị trí: src/pages/C2CProductPage.tsx
 import React, { useState, useEffect } from 'react';
-import { C2CProduct } from '../../mocks/mockDataC2C';
-import { fetchAllC2CProducts } from '../../mocks/mockDataC2C'; // Import hàm API mới
+import { C2CProductResponse, getC2CProducts } from '../../api/c2c.api';
 import C2CProductCard from '../../components/productC2C-card/productC2C-card'; // Import card C2C
 import './styles/c2c-product-page.css'; // Import file CSS mới
 
 const C2CProductPage: React.FC = () => {
   // State để lưu danh sách sản phẩm
-  const [products, setProducts] = useState<C2CProduct[]>([]);
+  const [products, setProducts] = useState<C2CProductResponse[]>([]);
   // State cho UX/UI "tỉ mỉ"
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // useEffect để fetch data khi component được mount
   useEffect(() => {
     const loadData = async () => {
       try {
         setIsLoading(true);
-        // Call API mock (chỉ lấy các sản phẩm 'active')
-        const activeProducts = await fetchAllC2CProducts();
-        setProducts(activeProducts);
+        setProducts(await getC2CProducts());
       } catch (error) {
-        console.error("Error fetching all C2C products:", error);
-        // Tương lai: hiển thị toast lỗi
+        const status = (error as { response?: { status?: number } }).response?.status;
+        console.error("Fetching C2C products failed with status:", status);
+        setError("Không thể tải sản phẩm từ người dùng khác. Vui lòng thử lại.");
       } finally {
         setIsLoading(false);
       }
@@ -35,6 +34,10 @@ const C2CProductPage: React.FC = () => {
     // 1. Trạng thái Loading
     if (isLoading) {
       return <div className="c2c-loading-state">Đang tải gian hàng...</div>;
+    }
+
+    if (error) {
+      return <div className="c2c-empty-list-state">{error}</div>;
     }
 
     // 2. Trạng thái Rỗng
@@ -55,8 +58,8 @@ const C2CProductPage: React.FC = () => {
   return (
     <section className="c2c-page-container">
       <div className="c2c-page-header">
-        <h1>Gian hàng C2C</h1>
-        <p>Khám phá các mặt hàng "pass" lại từ cộng đồng PrimeShop.</p>
+        <h1>Sản phẩm từ người dùng khác</h1>
+        <p>Khám phá sản phẩm do cộng đồng PrimeShop đăng bán.</p>
       </div>
       
       {/* Render nội dung (Loading / Rỗng / Grid) */}

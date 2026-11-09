@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.primeshop.order.Order;
 import com.primeshop.order.OrderRepo;
 import com.primeshop.order.OrderStatus;
+import com.primeshop.order.OrderService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,8 @@ public class WalletServiceImpl implements WalletService {
 
     @Autowired
     private OrderRepo orderRepository; // <-- thêm
+    @Autowired
+    private OrderService orderService;
 
     @Override
     public WalletBalanceResponse getBalance(Long userId) {
@@ -68,8 +71,7 @@ public class WalletServiceImpl implements WalletService {
         walletTransactionRepository.save(tx);
 
         // cập nhật trạng thái đơn hàng sang PAID
-        order.setStatus(OrderStatus.PAID);
-        orderRepository.save(order);
+        orderService.updateOrderStatus(orderId, OrderStatus.PAID);
     }
 
     @Override

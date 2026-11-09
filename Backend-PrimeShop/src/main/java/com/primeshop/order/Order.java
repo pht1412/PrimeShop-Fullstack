@@ -103,6 +103,25 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType; // CASH, CARD, BNPL
 
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus = PaymentStatus.PENDING;
+
+    public PaymentType getEffectivePaymentType() {
+        return paymentType == null ? PaymentType.CASH : paymentType;
+    }
+
+    public PaymentStatus getEffectivePaymentStatus() {
+        if (paymentStatus != null) {
+            return paymentStatus;
+        }
+        return switch (status == null ? OrderStatus.PENDING : status) {
+            case PAID, DELIVERED, COMPLETED -> PaymentStatus.PAID;
+            case PAYMENT_FAILED -> PaymentStatus.FAILED;
+            case REFUNDED -> PaymentStatus.REFUNDED;
+            default -> PaymentStatus.PENDING;
+        };
+    }
+
     // private boolean bnplFlag = false; // true nếu là trả sau (Fundiin)
 
     public enum PaymentType {

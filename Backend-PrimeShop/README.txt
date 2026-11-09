@@ -49,6 +49,18 @@
   mvn clean install
   mvn spring-boot:run
 
+6. Quy trình đơn hàng và vận chuyển
+  - Đơn mới: PENDING -> CONFIRMED.
+  - Đơn thanh toán điện tử: CONFIRMED -> PAID -> PROCESSING.
+  - Đơn COD: CONFIRMED -> PROCESSING; chỉ đánh dấu đã thanh toán khi đơn vị vận chuyển xác nhận thu tiền.
+  - Xử lý kho: PROCESSING -> INVENTORY -> READY_TO_SHIP.
+  - Giao vận: READY_TO_SHIP -> SHIPPED -> DELIVERED -> COMPLETED (khách xác nhận đã nhận).
+  - Giao thất bại: SHIPPED -> FAILED_DELIVERY -> READY_TO_SHIP (giao lại) hoặc RETURNED -> REFUNDED.
+  - Mọi thay đổi trạng thái phải đi qua OrderService; API giao vận chỉ cho phép các bước của đơn vị vận chuyển.
+  - Lịch sử tracking ghi nhận thời điểm, vị trí và ghi chú/lý do cho từng lần chuyển trạng thái.
+  - PaymentStatus được lưu riêng với OrderStatus. Các giá trị trạng thái cũ SHIPPING và DELIVERED_FAILED được giữ để đọc dữ liệu đã tồn tại.
+  - Endpoint khách xác nhận nhận hàng chỉ cho phép chủ đơn chuyển DELIVERED -> COMPLETED.
+
 ---Thẻ test VNPay---
 Ngân hàng: NCB
 Số thẻ: 9704198526191432198

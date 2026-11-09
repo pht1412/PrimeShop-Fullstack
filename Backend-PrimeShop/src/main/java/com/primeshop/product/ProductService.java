@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import com.primeshop.category.Category;
 import com.primeshop.category.CategoryRepo;
@@ -168,7 +170,10 @@ public class ProductService {
     }
 
     public List<ProductResponse> getActiveProducts() {
-        List<Product> products = productRepo.findByActiveTrue();
+        List<Product> products = productRepo.findByActiveTrue().stream()
+            .filter(this::isOfficialProduct)
+            .filter(product -> product.getStatus() == ProductStatus.APPROVED)
+            .collect(Collectors.toList());
         return products.stream()
                 .map(ProductResponse::new)
                 .collect(Collectors.toList());
@@ -198,7 +203,26 @@ public class ProductService {
     public ProductResponse getProductBySlug(String slug) {
         Product product = productRepo.findBySlugAndActiveTrue(slug)
             .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm!"));
+        if (!isOfficialProduct(product) || product.getStatus() != ProductStatus.APPROVED) {
+            throw new RuntimeException("Không tìm thấy sản phẩm!");
+        }
         return new ProductResponse(product);
+    }
+
+    public List<C2CProductResponse> getC2CProducts() {
+        return productRepo.findByStatusAndActiveTrueAndSeller_ShopNameNotOrderByCreatedAtDesc(
+                ProductStatus.APPROVED,
+                SellerProfile.OFFICIAL_SHOP_NAME
+            ).stream()
+            .map(product -> new C2CProductResponse(product, isCurrentUserSeller(product)))
+            .collect(Collectors.toList());
+    }
+
+    public C2CProductResponse getC2CProduct(Long productId) {
+        Product product = productRepo.findByIdAndActiveTrue(productId)
+            .filter(item -> item.getStatus() == ProductStatus.APPROVED && !isOfficialProduct(item))
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm C2C!"));
+        return new C2CProductResponse(product, isCurrentUserSeller(product));
     }
 
     public Product getProductById(Long id) {
@@ -209,18 +233,28 @@ public class ProductService {
     public List<ProductResponse> getProductsByCategory(String categorySlug) {
         return productRepo.findByCategorySlugAndActiveTrue(categorySlug)
             .stream()
+            .filter(product -> product.getStatus() == ProductStatus.APPROVED)
+            .filter(this::isOfficialProduct)
             .map(ProductResponse::new)
             .collect(Collectors.toList());
     }
 
     public List<ProductCardResponse> getHotSaleProducts() {
         List<Product> products = productRepo.findByActiveTrueOrderBySoldDesc();
-        return products.stream().map(ProductCardResponse::new).collect(Collectors.toList());
+        return products.stream()
+            .filter(product -> product.getStatus() == ProductStatus.APPROVED)
+            .filter(this::isOfficialProduct)
+            .map(ProductCardResponse::new)
+            .collect(Collectors.toList());
     }
    
     public List<ProductCardResponse> getDiscountProducts() {
         List<Product> products = productRepo.findByIsDiscountedTrueAndActiveTrueOrderByDiscountPercentDesc();
-        return products.stream().map(ProductCardResponse::new).collect(Collectors.toList());
+        return products.stream()
+            .filter(product -> product.getStatus() == ProductStatus.APPROVED)
+            .filter(this::isOfficialProduct)
+            .map(ProductCardResponse::new)
+            .collect(Collectors.toList());
     }
 
     public ProductResponse rateProduct(String productSlug, Double rating) {
@@ -235,9 +269,25 @@ public class ProductService {
 
     public List<ProductResponse> getTopRatedProducts() {
         return productRepo.findByActiveTrue().stream()
+            .filter(product -> product.getStatus() == ProductStatus.APPROVED)
+            .filter(this::isOfficialProduct)
             .sorted((p1, p2) -> p2.getRating().compareTo(p1.getRating()))
             .map(ProductResponse::new)
             .collect(Collectors.toList());
+    }
+
+    private boolean isOfficialProduct(Product product) {
+        return product.getSeller() != null
+            && SellerProfile.OFFICIAL_SHOP_NAME.equals(product.getSeller().getShopName());
+    }
+
+    private boolean isCurrentUserSeller(Product product) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null
+            && authentication.isAuthenticated()
+            && !"anonymousUser".equals(authentication.getName())
+            && product.getSeller().getUser() != null
+            && authentication.getName().equals(product.getSeller().getUser().getUsername());
     }
 
     public void addImagesToProduct(String productSlug, List<String> imageUrls) {

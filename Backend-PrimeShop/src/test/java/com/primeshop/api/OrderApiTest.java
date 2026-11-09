@@ -1,8 +1,14 @@
 package com.primeshop.api;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import com.primeshop.core.BaseTest;
+import com.primeshop.cart.Cart;
+import com.primeshop.cart.CartItemRepo;
+import com.primeshop.cart.CartRepo;
+import com.primeshop.user.User;
+import com.primeshop.user.UserRepo;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -10,6 +16,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.http.MediaType;
 
 public class OrderApiTest extends BaseTest{
+
+    @Autowired
+    private UserRepo userRepo;
+
+    @Autowired
+    private CartRepo cartRepo;
+
+    @Autowired
+    private CartItemRepo cartItemRepo;
 
     // =========================
     // GET ORDERS BY USER
@@ -54,6 +69,11 @@ public class OrderApiTest extends BaseTest{
 
     @Test
     void TC03_CreateOrder_EmptyCart() throws Exception {
+        User user = userRepo.findByUsername("user01").orElseThrow();
+        Cart cart = cartRepo.findByUser(user).orElse(null);
+        if (cart != null) {
+            cartItemRepo.deleteAll(cartItemRepo.findByCart(cart));
+        }
 
         String json = """
         {
@@ -100,7 +120,13 @@ public class OrderApiTest extends BaseTest{
                 .header("Authorization", getUserToken())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(orderJson))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].sellerId").isNotEmpty())
+                .andExpect(jsonPath("$[0].orderItems").isArray())
+                .andExpect(jsonPath("$[0].orderItems[0].productName").isNotEmpty())
+                .andExpect(jsonPath("$[0].paymentType").value("CASH"))
+                .andExpect(jsonPath("$[0].paymentStatus").value("PENDING"))
+                .andExpect(jsonPath("$[0].allowedNextStatuses").isArray());
     }
 
     // =========================

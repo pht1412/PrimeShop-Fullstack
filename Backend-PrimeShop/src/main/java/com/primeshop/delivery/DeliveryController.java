@@ -1,15 +1,11 @@
 package com.primeshop.delivery;
 
-import com.primeshop.order.OrderStatus;
 import com.primeshop.order.OrderResponse;
-import com.primeshop.delivery.UpdateStatusRequest;
-import com.primeshop.delivery.TrackingResponse;
+import com.primeshop.order.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.bind.annotation.*;
-import com.primeshop.delivery.DeliveryService;
-import com.primeshop.delivery.OrderIdRequest;
 
 import java.util.List;
 import java.util.Map;
@@ -27,8 +23,9 @@ public class DeliveryController {
      * Chỉ ADMIN và DELIVERY_UNIT có thể truy cập
      */
     @GetMapping("/orders")
-    public ResponseEntity<List<OrderResponse>> getOrdersForDelivery() {
-        List<OrderResponse> orders = deliveryService.getOrdersForDeliveryUnit();
+    public ResponseEntity<List<OrderResponse>> getOrdersForDelivery(
+            @RequestParam(required = false) OrderStatus status) {
+        List<OrderResponse> orders = deliveryService.getOrdersForDeliveryUnit(status);
         return ResponseEntity.ok(orders);
     }
 
@@ -41,10 +38,16 @@ public class DeliveryController {
             @PathVariable Long orderId,
             @RequestBody UpdateStatusRequest request) {
         try {
-            deliveryService.updateOrderStatus(orderId, request.getStatus(), request.getLocation());
+            deliveryService.updateOrderStatus(
+                    orderId,
+                    request.getStatus(),
+                    request.getLocation(),
+                    request.getNote(),
+                    request.isPaymentCollected());
             return ResponseEntity.ok(Map.of("message", "Order status updated successfully"));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(Map.of("error", e.getReason() == null ? "Không thể cập nhật đơn hàng." : e.getReason()));
         }
     }
 
@@ -91,11 +94,4 @@ public class DeliveryController {
         
         return ResponseEntity.ok(order);
     }
-    @PostMapping("/delivery/send")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('DELIVERY_UNIT')")
-    public ResponseEntity<?> sendDeliveryOrder(@RequestBody OrderIdRequest request) {
-        deliveryService.sendDeliveryOrder(request.getOrderId());
-        return ResponseEntity.ok(Map.of("message", "Delivery order sent successfully"));
-    }
 }
-

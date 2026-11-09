@@ -1,15 +1,14 @@
 // Vị trí: src/components/C2CProductCard.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-// BƯỚC 1: Loại bỏ Mock, Import type "xịn"
-import { IProductCardResponse, ProductStatus } from '../../types/seller'; 
+import { C2CProductResponse } from '../../api/c2c.api';
 // BƯỚC 2: Import file CSS "Shopee" mới
 import styles from './styles/ProductCard.module.css'; 
 import { FaMapMarkerAlt, FaToolbox } from 'react-icons/fa';
 
 // Định nghĩa Props: Nhận type "xịn"
 interface C2CProductCardProps {
-  product: IProductCardResponse;
+  product: C2CProductResponse;
 }
 
 // === Các hàm Helpers "tỉ mỉ" ===
@@ -40,7 +39,7 @@ const renderCondition = (condition?: C2CCondition) => {
 const C2CProductCard: React.FC<C2CProductCardProps> = ({ product }) => {
   
   // BƯỚC 4: Dùng trường "xịn" từ IProductCardResponse
-  const { slug, name, price, imageUrl, brand, location, condition, status } = product;
+  const { id, name, price, imageUrl, brand, location, condition, status } = product;
 
   // BƯỚC 5: Cập nhật logic "Đã bán/Ẩn"
   // API thật không có 'sold', ta dùng 'DISABLED' hoặc 'REJECTED'
@@ -64,7 +63,7 @@ const C2CProductCard: React.FC<C2CProductCardProps> = ({ product }) => {
     <div className={`${styles.productCard} ${isSoldOrHidden ? styles.c2cSold : ''}`}>
       
       {/* BƯỚC 7: Sửa Link trỏ về "slug" (tốt cho SEO) */}
-      <Link to={`/c2c-product-detail/${slug}`} className={styles.productLink}>
+      <Link to={`/c2c-product-detail/${id}`} className={styles.productLink}>
         
         {/* Hình ảnh sản phẩm */}
         <div className={styles.imageWrapper}>
@@ -82,9 +81,9 @@ const C2CProductCard: React.FC<C2CProductCardProps> = ({ product }) => {
         <div className={styles.productInfo}>
           
           {/* Tên sản phẩm */}
-          <Link to={`/c2c-product-detail/${slug}`} className={styles.productName}>
+          <span className={styles.productName}>
             {name}
-          </Link>
+          </span>
           
           {/* Giá (Đơn giản hóa) */}
           <div className={styles.priceInfo}>

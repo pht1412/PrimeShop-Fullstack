@@ -5,6 +5,7 @@ import com.primeshop.order.OrderRepo;
 import com.primeshop.order.OrderStatus;
 import com.primeshop.delivery.DeliveryTrackingRepository;
 import com.primeshop.order.OrderResponse;
+import com.primeshop.order.OrderService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,22 +25,33 @@ public class DeliveryService {
     
     @Autowired
     private DeliveryTrackingRepository trackingRepo;
+    @Autowired
+    private OrderService orderService;
 
     /**
      * Lấy danh sách đơn hàng cho đơn vị vận chuyển
      * Chỉ lấy các đơn hàng có trạng thái liên quan đến giao vận
      */
     public List<OrderResponse> getOrdersForDeliveryUnit() {
-        // Lấy tất cả đơn hàng đang ở trạng thái liên quan đến giao vận
+        return getOrdersForDeliveryUnit(null);
+    }
+
+    public List<OrderResponse> getOrdersForDeliveryUnit(OrderStatus status) {
         List<OrderStatus> deliveryStatuses = List.of(
-            OrderStatus.INVENTORY,
-            OrderStatus.READY_TO_SHIP, 
+            OrderStatus.READY_TO_SHIP,
             OrderStatus.SHIPPED,
             OrderStatus.DELIVERED,
-            OrderStatus.FAILED_DELIVERY
+            OrderStatus.FAILED_DELIVERY,
+            OrderStatus.RETURNED,
+            OrderStatus.SHIPPING,
+            OrderStatus.DELIVERED_FAILED
         );
-        
-        List<Order> orders = orderRepo.findByStatusIn(deliveryStatuses);
+        if (status != null && !deliveryStatuses.contains(status)) {
+            return List.of();
+        }
+        List<Order> orders = status == null
+                ? orderRepo.findByStatusIn(deliveryStatuses)
+                : orderRepo.findByStatusIn(List.of(status));
         return orders.stream()
                 .map(OrderResponse::new)
                 .collect(Collectors.toList());
@@ -49,29 +61,16 @@ public class DeliveryService {
      * Cập nhật trạng thái đơn hàng và tạo tracking record
      */
     @Transactional
-    public void updateOrderStatus(Long orderId, OrderStatus newStatus, String location) {
-        // Tìm đơn hàng
-        Order order = orderRepo.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Order not found with ID: " + orderId));
-        
-        // Cập nhật trạng thái đơn hàng
-        order.setStatus(newStatus);
-        orderRepo.save(order);
-
-        // Tạo tracking record mới
-        DeliveryTracking tracking = new DeliveryTracking();
-        tracking.setOrder(order);
-        tracking.setStatus(newStatus);
-        tracking.setTimestamp(LocalDateTime.now());
-        tracking.setLocation(location != null ? location : "Unknown location");
-        trackingRepo.save(tracking);
+    public void updateOrderStatus(
+            Long orderId, OrderStatus newStatus, String location, String note, boolean paymentCollected) {
+        orderService.updateDeliveryOrderStatus(orderId, newStatus, location, note, paymentCollected);
     }
 
     /**
      * Lấy lịch sử tracking của đơn hàng
      */
     public List<DeliveryTracking> getTrackingHistory(Long orderId) {
-        return trackingRepo.findByOrderId(orderId);
+        return trackingRepo.findByOrderIdOrderByTimestampAsc(orderId);
     }
 
     /**
@@ -91,7 +90,8 @@ public class DeliveryService {
                 .filter(order -> order.getStatus() == OrderStatus.DELIVERED)
                 .count();
         long failed = allOrders.stream()
-                .filter(order -> order.getStatus() == OrderStatus.FAILED_DELIVERY)
+                .filter(order -> order.getStatus() == OrderStatus.FAILED_DELIVERY
+                        || order.getStatus() == OrderStatus.DELIVERED_FAILED)
                 .count();
         long inventory = allOrders.stream()
                 .filter(order -> order.getStatus() == OrderStatus.INVENTORY)
@@ -221,25 +221,4 @@ public class DeliveryService {
         return dailyStats;
     }
 
-    /*Kiểm tra đơn hàng đạt trạng thái PAID và chuyển sang đơn vị vận chuyển */
-    public void sendDeliveryOrder(Long orderId) {
-        // 1. Lấy đơn hàng
-        Order order = orderRepo.findById(orderId)
-            .orElseThrow(() -> new RuntimeException("Order not found"));
-
-        // 2. Kiểm tra trạng thái PAID
-        if (order.getStatus() != OrderStatus.PAID) {
-            throw new RuntimeException("Order must be in PAID status to send to delivery");
-        }
-
-        // 3. Tạo bản ghi vận chuyển (Delivery) nếu cần
-        // Delivery delivery = new Delivery(order, ...);
-        // deliveryRepo.save(delivery);
-
-        // 4. Cập nhật trạng thái đơn hàng sang SHIPPED
-        order.setStatus(OrderStatus.PROCESSING);
-        orderRepo.save(order);
-
-        // 5. (Tùy chọn) Ghi log, gửi notification, v.v.
-    }
-} 
+}

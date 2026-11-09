@@ -129,6 +129,7 @@ const Header = () => {
           <Link to="/home" className="nav-item">Trang Chủ</Link>
           <Link to="/about" className="nav-item">Giới thiệu </Link>
           <Link to="/all-products" className="nav-item">Sản Phẩm</Link>
+          <Link to="/c2c" className="nav-item">Sản phẩm từ người dùng khác</Link>
           <Link to="/news" className="nav-item">Tin Công Nghệ</Link>
           <Link to="/faq" className="nav-item">Hỏi Đáp</Link>
           <Link to="/minigame-list" className="nav-item">Mini Game</Link>

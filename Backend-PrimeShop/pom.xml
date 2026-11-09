@@ -265,7 +265,6 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.5.2</version>
 				<configuration>
-					<testFailureIgnore>true</testFailureIgnore>
 					<argLine>${argLine} -XX:+EnableDynamicAgentLoading</argLine>
 				</configuration>
 			</plugin>

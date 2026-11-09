@@ -43,4 +43,3 @@ public class ProductCardResponse {
         this.status = product.getStatus();
     }    
 }
-

@@ -1,11 +1,15 @@
 import api from './api';
 
 export interface Order {
-  id: number;
+  orderId: number;
   fullName: string;
   phoneNumber: string;
   address: string;
-  status: string;
+  orderStatus: string;
+  paymentType?: string;
+  paymentStatus?: string;
+  allowedNextStatuses?: string[];
+  allowedDeliveryStatuses?: string[];
   estimatedDeliveryDate?: string;
   totalAmount?: number;
   orderDate?: string;
@@ -15,13 +19,16 @@ export interface Order {
 export interface TrackingEvent {
   id: number;
   status: string;
-  location: string;
+  location: string | null;
   timestamp: string;
+  note?: string | null;
 }
 
 export interface UpdateStatusRequest {
   status: string;
-  location: string;
+  location?: string;
+  note?: string;
+  paymentCollected?: boolean;
 }
 
 export const deliveryApi = {
@@ -46,8 +53,9 @@ export const deliveryApi = {
   // Lấy thống kê delivery
   getDeliveryStats: async (): Promise<{
     total: number;
+    inventory: number;
     readyToShip: number;
-    shipping: number;
+    shipped: number;
     delivered: number;
     failed: number;
   }> => {

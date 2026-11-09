@@ -33,7 +33,8 @@ import './delivery.css';
 interface TrackingEvent {
   id: number;
   status: string;
-  location: string;
+  location: string | null;
+  note?: string | null;
   timestamp: string; 
 }
 
@@ -93,6 +94,7 @@ const TrackingHistoryModal: React.FC<TrackingHistoryModalProps> = ({
         return 'default'; // Mặc định là màu xám nhạt
       case 'CONFIRMED':
       case 'SHIPPING':
+      case 'SHIPPED':
         return 'info';
       case 'PAID':
         return 'primary';
@@ -104,6 +106,7 @@ const TrackingHistoryModal: React.FC<TrackingHistoryModalProps> = ({
       case 'DELIVERED':
         return 'success';
       case 'FAILED_DELIVERY':
+      case 'DELIVERED_FAILED':
         return 'error';
       default:
         return 'default';
@@ -117,6 +120,7 @@ const TrackingHistoryModal: React.FC<TrackingHistoryModalProps> = ({
         return theme.palette.grey[500];
       case 'CONFIRMED':
       case 'SHIPPING':
+      case 'SHIPPED':
         return theme.palette.info.main;
       case 'PAID':
         return theme.palette.primary.main;
@@ -128,6 +132,7 @@ const TrackingHistoryModal: React.FC<TrackingHistoryModalProps> = ({
       case 'DELIVERED':
         return theme.palette.success.main;
       case 'FAILED_DELIVERY':
+      case 'DELIVERED_FAILED':
         return theme.palette.error.main;
       default:
         return theme.palette.grey[500];
@@ -142,9 +147,11 @@ const TrackingHistoryModal: React.FC<TrackingHistoryModalProps> = ({
       case 'PROCESSING': return 'Đang xử lý';
       case 'INVENTORY': return 'Tồn kho';
       case 'READY_TO_SHIP': return 'Chờ giao';
-      case 'SHIPPING': return 'Đang giao';
-      case 'DELIVERED': return 'Đã giao';
+      case 'SHIPPING':
+      case 'SHIPPED': return 'Đang vận chuyển';
+      case 'DELIVERED': return 'Giao thành công';
       case 'FAILED_DELIVERY': return 'Giao thất bại';
+      case 'DELIVERED_FAILED': return 'Giao thất bại';
       default: return status;
     }
   };
@@ -157,7 +164,8 @@ const TrackingHistoryModal: React.FC<TrackingHistoryModalProps> = ({
       case 'PROCESSING': return <CircularProgress size={20} color="inherit" />; // color inherit để ăn theo parent
       case 'INVENTORY': return <StorageIcon />;
       case 'READY_TO_SHIP': return <ScheduleIcon />;
-      case 'SHIPPING': return <LocalShippingIcon />;
+      case 'SHIPPING':
+      case 'SHIPPED': return <LocalShippingIcon />;
       case 'DELIVERED': return <CheckCircleIcon />;
       case 'FAILED_DELIVERY': return <ErrorIcon />;
       default: return <LocationOnIcon />;
@@ -263,9 +271,16 @@ const TrackingHistoryModal: React.FC<TrackingHistoryModalProps> = ({
                         </Box>
                       }
                       secondary={
-                        <Typography variant="body2" color="textSecondary">
-                          {event.location || 'Không có thông tin vị trí'}
-                        </Typography>
+                        <Box>
+                          <Typography variant="body2" color="textSecondary">
+                            {event.location || 'Không có thông tin vị trí'}
+                          </Typography>
+                          {event.note && (
+                            <Typography variant="body2" color="textSecondary">
+                              Ghi chú: {event.note}
+                            </Typography>
+                          )}
+                        </Box>
                       }
                     />
                   </ListItem>

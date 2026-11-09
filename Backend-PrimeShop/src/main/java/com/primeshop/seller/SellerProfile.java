@@ -11,6 +11,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class SellerProfile {
+    public static final String OFFICIAL_SHOP_NAME = "PrimeShop Official";
+
     @Id
     @GeneratedValue
     private Long id;
@@ -36,4 +38,3 @@ public class SellerProfile {
         PENDING_REVIEW, VERIFIED_SELLER, BANNED_SELLER
     }
 }
-

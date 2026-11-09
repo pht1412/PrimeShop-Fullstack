@@ -233,7 +233,7 @@ const AccountPage = () => {
 
   const handleReceiveOrder = async (orderId: string) => {
     try {
-      await api.put(`/order/update-status?id=${orderId}&status=DELIVERED`);
+      await api.put(`/order/${orderId}/confirm-received`);
       fetchOrders();
       toast.success("Đã xác nhận nhận hàng!");
     } catch (error) { toast.error('Lỗi cập nhật trạng thái'); }
@@ -373,6 +373,15 @@ const AccountPage = () => {
                             {statusInfo.icon} {statusInfo.label}
                           </div>
                         </div>
+                        <div style={{ fontSize: '0.85rem', color: '#6B7280', margin: '8px 0' }}>
+                          Thanh toán: {order.paymentStatus === 'PAID'
+                            ? 'Đã thanh toán'
+                            : order.paymentStatus === 'FAILED'
+                              ? 'Thanh toán thất bại'
+                              : order.paymentType === 'CASH'
+                                ? 'COD - thanh toán khi nhận hàng'
+                                : 'Đang chờ thanh toán'}
+                        </div>
 
                         <div className="card-body">
                           <img 
@@ -399,7 +408,7 @@ const AccountPage = () => {
                           </div>
                           
                           <div className="action-buttons">
-                            {order.orderStatus === 'CONFIRMED' && (
+                            {order.orderStatus === 'CONFIRMED' && order.paymentType !== 'CASH' && (
                                 <button className="btn-action btn-fill-primary" onClick={() => showPaymentMethod(order)}>
                                     <FaMoneyBillWave /> Thanh toán ngay
                                 </button>

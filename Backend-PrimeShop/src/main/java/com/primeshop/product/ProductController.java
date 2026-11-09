@@ -52,6 +52,16 @@ public class ProductController {
         return ResponseEntity.ok(productService.getActiveProducts());
     }
 
+    @GetMapping("/c2c")
+    public ResponseEntity<List<C2CProductResponse>> getC2CProducts() {
+        return ResponseEntity.ok(productService.getC2CProducts());
+    }
+
+    @GetMapping("/c2c/{productId}")
+    public ResponseEntity<C2CProductResponse> getC2CProduct(@PathVariable Long productId) {
+        return ResponseEntity.ok(productService.getC2CProduct(productId));
+    }
+
     @GetMapping("/category")
     public ResponseEntity<?> getProductsByCategory(@RequestParam String categorySlug) {
         return ResponseEntity.ok(productService.getProductsByCategory(categorySlug));

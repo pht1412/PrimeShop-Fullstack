@@ -25,7 +25,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/ws/**").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")                
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/order/update-status").hasRole("ADMIN")
                 .requestMatchers("/api/delivery/**").hasAnyRole("ADMIN", "DELIVERY_UNIT")
                 .anyRequest().permitAll()
             )

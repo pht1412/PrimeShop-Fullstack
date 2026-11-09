@@ -10,12 +10,15 @@ export interface Order {
   totalAmount: number; // Tổng tiền hàng (Subtotal)
   finalAmount: number; // Tổng thanh toán thực tế (Sau Voucher + Ship)
   orderStatus: string;
+  paymentType?: string;
+  paymentStatus?: string;
+  allowedNextStatuses?: string[];
   createdAt: string;
   fullName: string;
   phoneNumber: string;
   address: string;
   note: string;
-  items: OrderItem[];
+  orderItems: OrderItem[];
   admin: boolean;
   startDate?: string;
   endDate?: string;
